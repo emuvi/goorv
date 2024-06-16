@@ -6,32 +6,35 @@ import javax.swing.UIManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.formdev.flatlaf.FlatDarculaLaf;
+import br.com.pointel.goorv.service.Questioner;
 
-public class Main extends JFrame {
+public class Desktop extends JFrame {
 
-    private static Logger log = LoggerFactory.getLogger(Main.class);
+    private static Logger log = LoggerFactory.getLogger(Desktop.class);
 
-    public Main() {
+    private final Questioner questioner = new Questioner();
+
+    public Desktop() {
         setTitle("Goorv");
-        setSize(200, 200);
+        setSize(180, 180);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         add(new DropBox(files -> {
             for (var file : files) {
-                log.info("File dropped: {}", file);
+                questioner.launch(file);
             }
         }));
     }
 
     public static void start(String[] args) {
-        log.info("Starting Goorv");
+        log.info("Starting Desktop");
         try {
             UIManager.setLookAndFeel(new FlatDarculaLaf());
         } catch (Exception e) {
             log.error("Failed to initialize FlatDarculaLaf", e);
         }
         EventQueue.invokeLater(() -> {
-            new Main().setVisible(true);
+            new Desktop().setVisible(true);
         });
     }
 
