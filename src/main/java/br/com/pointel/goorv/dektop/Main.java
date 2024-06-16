@@ -1,4 +1,4 @@
-package br.com.pointel.goorv.desk;
+package br.com.pointel.goorv.dektop;
 
 import java.awt.EventQueue;
 import javax.swing.JFrame;
