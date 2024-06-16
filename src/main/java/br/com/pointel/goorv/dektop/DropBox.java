@@ -45,8 +45,7 @@ public class DropBox extends JPanel {
                     DataFlavor[] flavors = transferable.getTransferDataFlavors();
                     for (DataFlavor flavor : flavors) {
                         if (flavor.isFlavorJavaFileListType()) {
-                            List<File> files = (List<File>) transferable.getTransferData(flavor);
-                            consumer.accept(files);
+                            consumer.accept((List<File>) transferable.getTransferData(flavor));
                         }
                     }
                     dtde.dropComplete(true);
