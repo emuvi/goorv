@@ -1,4 +1,4 @@
-package br.com.pointel.goorv.dektop;
+package br.com.pointel.goorv.dektop.pieces;
 
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;

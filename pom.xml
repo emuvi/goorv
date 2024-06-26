@@ -24,6 +24,12 @@
             <version>4.8.144</version>
         </dependency>
         <dependency>
+            <groupId>org.apache.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+            <version>4.0.21</version>
+            <type>pom</type>
+        </dependency>
+        <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
             <version>4.21.0</version>
@@ -125,7 +131,7 @@
     <build>
         <resources>
             <resource>
-                <directory>${basedir}/assets</directory>
+                <directory>${basedir}/res</directory>
                 <filtering>false</filtering>
             </resource>
         </resources>
@@ -189,6 +195,29 @@
                         <configuration>
                             <outputDirectory>dist/lib</outputDirectory>
                             <includeScope>compile</includeScope>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>dist/res</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${basedir}/res</directory>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
                         </configuration>
                     </execution>
                 </executions>
