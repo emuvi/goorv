@@ -22,7 +22,7 @@ public class WizProps {
     }
 
     public static void load() throws Exception {
-        load(WizApp.NAME);
+        load(WizAct.NAME);
     }
 
     public static void load(String name) throws Exception {
@@ -79,7 +79,7 @@ public class WizProps {
     }
 
     public static void save() throws Exception {
-        save(WizApp.NAME);
+        save(WizAct.NAME);
     }
 
     public static void save(String name) throws Exception {

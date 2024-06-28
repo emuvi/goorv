@@ -11,13 +11,13 @@ import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 
 public class DockReaderMSO {
-    
+
     public static boolean canRead(File file) {
         return DockReaderMSOUtils.isMSWordFile(file)
-                || DockReaderMSOUtils.isMSExcelFile(file)
-                || DockReaderMSOUtils.isMSPowerPointFile(file);
+                        || DockReaderMSOUtils.isMSExcelFile(file)
+                        || DockReaderMSOUtils.isMSPowerPointFile(file);
     }
-    
+
     private final File path;
 
     public DockReaderMSO(File path) {
@@ -38,8 +38,8 @@ public class DockReaderMSO {
 
     private String extractTextFromWord() throws Exception {
         try (var fis = new FileInputStream(path)) {
-            try (var document = new XWPFDocument(fis)) {
-                var extractor = new XWPFWordExtractor(document);
+            try (var document = new XWPFDocument(fis);
+                var extractor = new XWPFWordExtractor(document);) {
                 return extractor.getText();
             }
         }
@@ -47,8 +47,10 @@ public class DockReaderMSO {
 
     private String extractTextFromExcel() throws Exception {
         try (var fis = new FileInputStream(path)) {
-            try (var workBook = new HSSFWorkbook(new POIFSFileSystem(fis))) {
+            try (
+                var workBook = new HSSFWorkbook(new POIFSFileSystem(fis));
                 var extractor = new ExcelExtractor(workBook);
+            ) {
                 extractor.setFormulasNotResults(false);
                 extractor.setIncludeSheetNames(true);
                 return extractor.getText();

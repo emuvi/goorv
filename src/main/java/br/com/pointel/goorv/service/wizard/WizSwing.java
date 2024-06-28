@@ -24,12 +24,16 @@ import javax.swing.SwingUtilities;
 
 public class WizSwing {
 
-    public static void showInfo(String message) {
+    public static void run(Runnable runnable) {
         if (SwingUtilities.isEventDispatchThread()) {
-            JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.INFORMATION_MESSAGE);
+            runnable.run();
         } else {
-            SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.INFORMATION_MESSAGE));
+            SwingUtilities.invokeLater(runnable);
         }
+    }
+
+    public static void showInfo(String message) {
+        run(() -> JOptionPane.showMessageDialog(null, message, "Info", JOptionPane.INFORMATION_MESSAGE));
     }
 
     public static void showError(Throwable error) {
@@ -39,11 +43,7 @@ public class WizSwing {
     public static void showError(Throwable error, String detail) {
         error.printStackTrace();
         String message = "[" + error.getClass().getSimpleName() + "] " + error.getMessage() + (detail != null ? " " + detail : "");
-        if (SwingUtilities.isEventDispatchThread()) {
-            JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
-        } else {
-            SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE));
-        }
+        run(() -> JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE));
     }
 
     public static boolean showConfirm(String message) {

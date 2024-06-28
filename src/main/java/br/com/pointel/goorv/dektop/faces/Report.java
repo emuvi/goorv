@@ -43,4 +43,10 @@ public class Report extends JFrame {
         return this;
     }
 
+    public Report println(String content) {
+        textArea.append(content);
+        textArea.append("\n");
+        return this;
+    }
+
 }

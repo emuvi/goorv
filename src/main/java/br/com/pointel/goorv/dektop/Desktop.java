@@ -2,6 +2,7 @@ package br.com.pointel.goorv.dektop;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.util.function.Consumer;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -12,8 +13,9 @@ import javax.swing.border.Border;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.formdev.flatlaf.FlatDarculaLaf;
+import br.com.pointel.goorv.Glyphing;
 import br.com.pointel.goorv.dektop.faces.Report;
-import br.com.pointel.goorv.service.wizard.WizApp;
+import br.com.pointel.goorv.service.wizard.WizAct;
 import br.com.pointel.goorv.service.wizard.WizSwing;
 
 public class Desktop extends JFrame {
@@ -40,15 +42,24 @@ public class Desktop extends JFrame {
     }
 
     private void go() {
-        try {
-            var retorno = WizApp.execute(prompt.getText());
-            if (retorno != null) {
-                new Report("Prompt Execution")
-                    .setContent(retorno).showReport();
+        var report = new Report("Prompt Execution").showReport();
+        var consumer = (Consumer<Glyphing>) glyphing -> {
+            if (glyphing.hasGlyphed()) {
+                report.println(glyphing.getGlyphed());
+            } else if (glyphing.hasError()) {
+                report.println(glyphing.getError().getMessage());
+                report.println(glyphing.getErrorStack());
             }
-        } catch (Exception e) {
-            WizSwing.showError(e);
-        }
+        };
+        new Thread(() -> {
+            try {
+                WizAct.execute(consumer, prompt.getText());
+            } catch (Exception e) {
+                consumer.accept(new Glyphing(e));
+            } finally {
+                consumer.accept(new Glyphing("End of execution"));
+            }
+        }).start();
     }
 
     public static void start(String[] args) {
@@ -58,9 +69,7 @@ public class Desktop extends JFrame {
         } catch (Exception e) {
             log.error("Failed to initialize FlatDarculaLaf", e);
         }
-        EventQueue.invokeLater(() -> {
-            new Desktop().setVisible(true);
-        });
+        EventQueue.invokeLater(() -> new Desktop().setVisible(true));
     }
 
 }
