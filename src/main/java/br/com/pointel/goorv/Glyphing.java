@@ -5,12 +5,22 @@ import java.io.StringWriter;
 
 public class Glyphing {
 
-    private final String glyphed;
+    private final Glyphed glyphed;
     private final Throwable error;
 
-    public Glyphing(String glyphed) {
-        this.glyphed = glyphed;
-        this.error = null;
+    public Glyphing(Object value) {
+        Glyphed onGlyphed = null;
+        Throwable onError = null;
+        try {
+            onGlyphed = new Glyphed(value);
+            onError = null;
+        } catch (Exception e) {
+            onGlyphed = null;
+            onError = e;
+        } finally {
+            this.glyphed = onGlyphed;
+            this.error = onError;
+        }
     }
 
     public Glyphing(Throwable error) {
@@ -26,11 +36,22 @@ public class Glyphing {
         return error != null;
     }
 
-    public String getGlyphed() {
+    public Glyphed getGlyphed() {
         if (!hasGlyphed()) {
             throw new IllegalStateException("No glyphed value available");
         }
         return glyphed;
+    }
+
+    public Object getValue() {
+        if (!hasGlyphed()) {
+            throw new IllegalStateException("No glyphed value available");
+        }
+        try {
+            return glyphed.getValue();
+        } catch (Exception e) {
+            throw new IllegalStateException("Error on get value", e);
+        }
     }
 
     public Throwable getError() {

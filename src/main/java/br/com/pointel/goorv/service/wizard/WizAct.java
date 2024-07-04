@@ -2,10 +2,9 @@ package br.com.pointel.goorv.service.wizard;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import br.com.pointel.goorv.Activity;
-import br.com.pointel.goorv.Glyphing;
+import br.com.pointel.goorv.Context;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ScanResult;
 
@@ -23,7 +22,7 @@ public class WizAct {
         }
     }
 
-    public static void execute(Consumer<Glyphing> consumer, String prompt) throws Exception {
+    public static void execute(Context context, String prompt) throws Exception {
         var allPrompt = WizChars.parseStrings(prompt);
         var pipedPrompt = new ArrayList<List<String>>();
         var currentPrompt = new ArrayList<String>();
@@ -36,26 +35,18 @@ public class WizAct {
             }
         }
         pipedPrompt.add(currentPrompt);
-        var stackGlyph = new ArrayList<String>();
-        var stackConsumer = (Consumer<Glyphing>) glyphing -> {
-            if (glyphing.hasGlyphed()) {
-                stackGlyph.add(glyphing.getGlyphed());
-            } else if (glyphing.hasError()) {
-                consumer.accept(glyphing);
-            }
-        };
+        var stackedPrompt = new ArrayList<String>();
         for (int i = pipedPrompt.size() -1; i >= 0; i--) {
-            var currentConsumer = i > 0 ? stackConsumer : consumer;
             var promptCall = pipedPrompt.get(i);
             if (promptCall.isEmpty()) {
                 continue;
             }
             var activityName = promptCall.remove(0);
-            var activity = getActivity(currentConsumer, activityName);
+            var activity = getActivity(context, activityName);
             var orderName = promptCall.remove(0);
             var order = activity.getOrderOrThrow(orderName);
-            promptCall.addAll(stackGlyph);
-            stackGlyph.clear();
+            promptCall.addAll(stackedPrompt);
+            stackedPrompt.clear();
             if (promptCall.isEmpty()) {
                 activity.call(order);
             } else {
@@ -65,9 +56,9 @@ public class WizAct {
         }
     }
 
-    public static Activity getActivity(Consumer<Glyphing> consumer, String activityName) throws Exception {
+    public static Activity getActivity(Context context, String activityName) throws Exception {
         Class<?> clazz = Class.forName(ACTIVITY_PACKAGE + "." + activityName);
-        return (Activity) clazz.getConstructor(Consumer.class).newInstance(consumer);
+        return (Activity) clazz.getConstructor(Context.class).newInstance(context);
     }
 
 }
