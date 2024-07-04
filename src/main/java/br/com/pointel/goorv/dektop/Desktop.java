@@ -6,8 +6,12 @@ import java.util.function.Consumer;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.JPopupMenu;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+import javax.swing.JTextArea;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
 import org.slf4j.Logger;
@@ -21,27 +25,43 @@ import br.com.pointel.goorv.service.wizard.WizSwing;
 public class Desktop extends JFrame {
 
     private static final Logger log = LoggerFactory.getLogger(Desktop.class);
+    public static final Border borderBody = BorderFactory.createEmptyBorder(8, 8, 8, 8);
 
-    private final JPanel panel = new JPanel(new BorderLayout(8, 8));
-    private final Border border = BorderFactory.createEmptyBorder(8, 8, 8, 8);
-    private final JTextField prompt = new JTextField(27);
-    private final JButton button = new JButton("Go");
+    private final JPanel panelTop = new JPanel(new BorderLayout(8, 8));
+    private final JButton buttonMe = new JButton("Me");
+    private final JTextArea textPrompt = new JTextArea(1, 27);
+    private final JScrollPane scrollPrompt = new JScrollPane(textPrompt);
+    private final JButton buttonGo = new JButton("Go");
+    private final JTextArea textView = new JTextArea(1, 27);
+    private final JScrollPane scrollView = new JScrollPane(textView);
+    private final JSplitPane splitBody = new JSplitPane(JSplitPane.VERTICAL_SPLIT, panelTop, scrollView);
+
+    private final JPopupMenu popupMenu = new JPopupMenu();
+    private final JMenuItem menuExit = new JMenuItem("Exit");
 
     public Desktop() {
         setTitle("Goorv");
         setSize(180, 180);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setContentPane(panel);
-        getRootPane().setDefaultButton(button);
-        panel.setBorder(border);
-        panel.add(prompt, BorderLayout.CENTER);
-        panel.add(button, BorderLayout.EAST);
-        button.addActionListener(e -> go());
+        setContentPane(splitBody);
+        splitBody.setBorder(borderBody);
+        panelTop.add(buttonMe, BorderLayout.WEST);
+        panelTop.add(scrollPrompt, BorderLayout.CENTER);
+        panelTop.add(buttonGo, BorderLayout.EAST);
+        buttonMe.addActionListener(e -> launchMenu());
+        buttonGo.addActionListener(e -> launchPrompt());
+        textPrompt.setLineWrap(true);
+        textPrompt.setWrapStyleWord(true);
+        textView.setEditable(false);
         WizSwing.initFrame(this);
     }
 
-    private void go() {
+    private void launchMenu() {
+        textView.setText("Me");
+    }
+
+    private void launchPrompt() {
         var report = new Report("Prompt Execution").showReport();
         var consumer = (Consumer<Glyphing>) glyphing -> {
             if (glyphing.hasGlyphed()) {
@@ -53,7 +73,7 @@ public class Desktop extends JFrame {
         };
         new Thread(() -> {
             try {
-                WizAct.execute(consumer, prompt.getText());
+                WizAct.execute(consumer, textPrompt.getText());
             } catch (Exception e) {
                 consumer.accept(new Glyphing(e));
             } finally {
