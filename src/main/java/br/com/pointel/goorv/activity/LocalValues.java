@@ -1,6 +1,7 @@
 package br.com.pointel.goorv.activity;
 
 import java.util.Map;
+import java.util.Set;
 import br.com.pointel.goorv.Activity;
 import br.com.pointel.goorv.Context;
 import br.com.pointel.goorv.Order;
@@ -19,13 +20,13 @@ public class LocalValues extends Activity {
     public static final Order ORDER_PUT = new Order("put", "Put the [value] on the [name].", PARAM_PUT_NAME, PARAM_PUT_VALUE);
 
     public LocalValues(Context context) {
-        super(context,"Keeps global values.", 
+        super(context,"Local values functionality.", 
             ORDER_SHOW, ORDER_GET, ORDER_PUT
         );
     }
 
     public void show() {
-        send("Global Values:");
+        send("Local Values:");
         for (Map.Entry<String, Object> entry : context.getValues()) {
             send(entry.getKey() + " = " + entry.getValue());
         }
@@ -35,8 +36,20 @@ public class LocalValues extends Activity {
         return context.getValue(allPassed.getGlyphed(PARAM_GET_NAME));
     }
 
+    public Set<Map.Entry<String, Object>> getAll() {
+        return context.getValues();
+    }
+
     public void put(PassedBy allPassed) {
         context.putValue(allPassed.getGlyphed(PARAM_PUT_NAME), allPassed.getGlyphed(PARAM_PUT_VALUE));
+    }
+
+    public void del(PassedBy allPassed) {
+        context.delValue(allPassed.getGlyphed(PARAM_GET_NAME));
+    }
+
+    public void clear() {
+        context.clearValues();
     }
 
 }

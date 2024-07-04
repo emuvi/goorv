@@ -2,6 +2,7 @@ package br.com.pointel.goorv.activity;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import br.com.pointel.goorv.Activity;
 import br.com.pointel.goorv.Context;
 import br.com.pointel.goorv.Order;
@@ -22,7 +23,7 @@ public class GlobalValues extends Activity {
     private static final Map<String, Object> GLOBAL_VALUES = new HashMap<>();
 
     public GlobalValues(Context context) {
-        super(context,"Keeps global values.", 
+        super(context,"Global values functionality.", 
             ORDER_SHOW, ORDER_GET, ORDER_PUT
         );
     }
@@ -38,8 +39,20 @@ public class GlobalValues extends Activity {
         return GLOBAL_VALUES.get(allPassed.getGlyphed(PARAM_GET_NAME));
     }
 
+    public Set<Map.Entry<String, Object>> getAll() {
+        return GLOBAL_VALUES.entrySet();
+    }
+
     public void put(PassedBy allPassed) {
         GLOBAL_VALUES.put(allPassed.getGlyphed(PARAM_PUT_NAME), allPassed.getGlyphed(PARAM_PUT_VALUE));
+    }
+
+    public void del(PassedBy allPassed) {
+        GLOBAL_VALUES.remove(allPassed.getGlyphed(PARAM_GET_NAME));
+    }
+
+    public void clear() {
+        GLOBAL_VALUES.clear();
     }
 
 }
