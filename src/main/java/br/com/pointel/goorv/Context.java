@@ -51,6 +51,14 @@ public class Context {
         consumer.accept(glyphing);
     }
 
+    public void sendValue(Object value) {
+        consumer.accept(new Glyphing(value));
+    }
+
+    public void sendError(Throwable error) {
+        consumer.accept(new Glyphing(error));
+    }
+
     public void putValue(String name, Object value) {
         localValues.put(name, value);
     }

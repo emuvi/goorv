@@ -1,21 +1,91 @@
 package br.com.pointel.goorv;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import br.com.pointel.goorv.exception.GlyphingException;
 
 public class Glyphed {
-    
+
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
     private final String clazz;
-    private final String value;
+    private final String glyph;
 
-    public Glyphed(Object value) throws Exception {
-        this.clazz = value.getClass().getName();
-        this.value = MAPPER.writeValueAsString(value);
+    public Glyphed(Object value, Class<?> type) {
+        try {
+            this.clazz = type.getName();
+            this.glyph = MAPPER.writeValueAsString(value);
+        } catch (Exception e) {
+            throw new GlyphingException(e);
+        }
     }
 
-    public Object getValue() throws Exception {
-        return MAPPER.readValue(this.value, Class.forName(this.clazz));
+    public Glyphed(Object value) {
+        try {
+            this.clazz = value.getClass().getName();
+            this.glyph = MAPPER.writeValueAsString(value);
+        } catch (Exception e) {
+            throw new GlyphingException(e);
+        }
+    }
+
+    public String getClazz() {
+        return this.clazz;
+    }
+
+    public String getGlyph() {
+        return this.glyph;
+    }
+
+    public Object getValue() {
+        try {
+            return MAPPER.readValue(this.glyph, Class.forName(this.clazz));
+        } catch (Exception e) {
+            throw new GlyphingException(e);
+        }
+    }
+
+    public <T> T getValue(Class<T> type) {
+        return type.cast(getValue());
+    }
+
+    public Boolean getValueBoolean() {
+        return getValue(Boolean.class);
+    }
+
+    public Byte getValueByte() {
+        return getValue(Byte.class);
+    }
+
+    public Short getValueShort() {
+        return getValue(Short.class);
+    }
+
+    public Integer getValueInteger() {
+        return getValue(Integer.class);
+    }
+
+    public Long getValueLong() {
+        return getValue(Long.class);
+    }
+
+    public Float getValueFloat() {
+        return getValue(Float.class);
+    }
+
+    public Double getValueDouble() {
+        return getValue(Double.class);
+    }
+
+    public Character getValueCharacter() {
+        return getValue(Character.class);
+    }
+
+    public String getValueString() {
+        return getValue(String.class);
+    }
+
+    public String toString() {
+        return this.glyph;
     }
 
 }

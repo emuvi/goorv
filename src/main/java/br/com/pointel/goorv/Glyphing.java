@@ -48,7 +48,7 @@ public class Glyphing {
             throw new IllegalStateException("No glyphed value available");
         }
         try {
-            return glyphed.getValue();
+            return glyphed.getGlyph();
         } catch (Exception e) {
             throw new IllegalStateException("Error on get value", e);
         }
@@ -69,6 +69,16 @@ public class Glyphing {
         var printWriter = new PrintWriter(stringWriter);
         error.printStackTrace(printWriter);
         return stringWriter.toString();
+    }
+
+    public String toString() {
+        if (hasGlyphed()) {
+            return glyphed.toString();
+        } else if (hasError()) {
+            return error.getMessage() + "\n" + getErrorStack();
+        } else {
+            return "No glyphed value or error available";
+        }
     }
 
 }

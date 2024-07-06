@@ -51,24 +51,16 @@ public abstract class Activity {
         return order;
     }
 
-    public Glyphing call(Order order) throws Exception {
+    public Typed call(Order order) throws Exception {
         var method = this.getClass().getMethod(order.getName());
         var result = method.invoke(this);
-        if (result instanceof Glyphing) {
-            return (Glyphing) result;
-        } else {
-            return null;
-        }
+        return new Typed(method.getReturnType(), result);
     }
     
-    public Glyphing call(Order order, PassedBy allPassed) throws Exception {
+    public Typed call(Order order, PassedBy allPassed) throws Exception {
         var method = this.getClass().getMethod(order.getName(), PassedBy.class);
         var result = method.invoke(this, allPassed);
-        if (result instanceof Glyphing) {
-            return (Glyphing) result;
-        } else {
-            return null;
-        }
+        return new Typed(method.getReturnType(), result);
     }
 
     public void send(String glyphed) {

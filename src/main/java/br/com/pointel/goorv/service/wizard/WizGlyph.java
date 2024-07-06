@@ -9,7 +9,7 @@ public class WizGlyph {
 
     private WizGlyph() {}
 
-    public static String make(Object value) throws GlyphingException {
+    public static String make(Object value) {
         try {
             return GLYPHER.writeValueAsString(value);
         } catch (Exception e) {
@@ -17,7 +17,7 @@ public class WizGlyph {
         }
     }
 
-    public static <T> T from(String glyph, Class<T> type) throws GlyphingException {
+    public static <T> T from(String glyph, Class<T> type) {
         try {
             return GLYPHER.readValue(glyph, type);
         } catch (Exception e) {

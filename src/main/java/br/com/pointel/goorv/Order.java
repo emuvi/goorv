@@ -1,7 +1,5 @@
 package br.com.pointel.goorv;
 
-import java.util.List;
-
 public class Order {
     
     private final String name;
@@ -43,33 +41,6 @@ public class Order {
         return param;
     }
 
-    public PassedBy getPassedBy(List<String> args) {
-        PassedBy paramsPassed = new PassedBy();
-        var isNamed = false;
-        var paramIndex = 0;
-        Param actualParam = this.params[paramIndex];
-        while (!args.isEmpty()) {
-            var arg = args.remove(0);
-            if (isNamed) {
-                if (arg.startsWith("-")) {
-                    actualParam = this.getParamOrThrow(arg);
-                } else {
-                    paramsPassed.add(actualParam, arg);
-                }
-            } else {
-                if (arg.startsWith("-")) {
-                    isNamed = true;
-                    actualParam = this.getParamOrThrow(arg);
-                } else {
-                    paramsPassed.add(actualParam, arg);
-                    if (paramIndex < this.params.length - 1) {
-                        paramIndex++;
-                    }
-                    actualParam = this.params[paramIndex];
-                }
-            }
-        }
-        return paramsPassed;
-    }
+
 
 }

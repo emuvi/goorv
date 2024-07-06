@@ -16,13 +16,13 @@ public class WizChars {
         return ofTitle.replace(" ", "_").toUpperCase();
     }
 
-    public static String mountGrid(List<Pair<String, String>> grid) {
+    public static String mountGrid(List<Pair<String, String>> ofPairs) {
         var result = new StringBuilder();
         var max = 0;
-        for (var line : grid) {
+        for (var line : ofPairs) {
             max = Math.max(max, line.getLeft().length());
         }
-        for (var line : grid) {
+        for (var line : ofPairs) {
             result.append(StringUtils.rightPad(line.getLeft(), max, '.'));
             result.append("...: ");
             result.append(line.getRight());
@@ -31,11 +31,11 @@ public class WizChars {
         return result.toString();
     }
 
-    public static String getNameWithNewIndex(String name, int addIndex) {
+    public static String getNameWithNewIndex(String onName, int addIndex) {
         int begin = -1;
-        int end = name.length();
-        for (int i = 0; i < name.length(); i++) {
-            char charAt = name.charAt(i);
+        int end = onName.length();
+        for (int i = 0; i < onName.length(); i++) {
+            char charAt = onName.charAt(i);
             if (begin == -1) {
                 if (Character.isDigit(charAt)) {
                     begin = i;
@@ -48,28 +48,28 @@ public class WizChars {
             }
         }
         if (begin == -1) {
-            return name;
+            return onName;
         }
-        int number = Integer.parseInt(name.substring(begin, end));
+        int number = Integer.parseInt(onName.substring(begin, end));
         int newNumber = number + addIndex;
         String newNameNumber = StringUtils.leftPad(newNumber + "", end - begin, '0');
-        return name.substring(0, begin) + newNameNumber + name.substring(end);
+        return onName.substring(0, begin) + newNameNumber + onName.substring(end);
     }
 
-    public static Set<String> getKeyWords(String source) {
-        return getWords(removeAccents(source));
+    public static Set<String> getKeyWords(String ofSource) {
+        return getWords(removeAccents(ofSource));
     }
     
-    public static Set<String> getWords(String source) {
+    public static Set<String> getWords(String ofSource) {
         var result = new HashSet<String>();
-        var partsOnSpace = source.split("\\s+");
+        var partsOnSpace = ofSource.split("\\s+");
         for (var spaced : partsOnSpace) {
             result.addAll(getWordsInBounds(spaced));
         }
         return result;
     }
 
-    public static Set<String> getWordsInBounds(String source) {
+    public static Set<String> getWordsInBounds(String ofSource) {
         var result = new HashSet<String>();
 
         Consumer<String> addWord = (word) -> {
@@ -81,7 +81,7 @@ public class WizChars {
             }
         };
         
-        var parts = source.toCharArray();
+        var parts = ofSource.toCharArray();
         var maker = new StringBuilder();
         for (int i = 0; i < parts.length; i++) {
             var prior = i > 0 ? parts[i - 1] : 0;
@@ -111,40 +111,100 @@ public class WizChars {
         return result.toString();
     }
     
-    public static String removeAccents(String text) {
-        String decomposed = Normalizer.normalize(text, Normalizer.Form.NFD);
+    public static String removeAccents(String ofChars) {
+        String decomposed = Normalizer.normalize(ofChars, Normalizer.Form.NFD);
         Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
         return pattern.matcher(decomposed).replaceAll("");
     }
 
-    public static List<String> parseStrings(String source) {
-        var results = new ArrayList<String>();
-        var insideQuotes = false;
-        var maker = new StringBuilder();
-        Consumer<String> addParsed = (String parsed) -> {
-            if (parsed.length() > 0) {
-                results.add(parsed);
+    public static List<String> parseArguments(String ofCommand) {
+        var context = new ParseArgumentsContext();
+        for (int i = 0; i < ofCommand.length(); i++) {
+            if (context.jumpNextChar) {
+                context.jumpNextChar = false;
+                continue;
             }
-        };
-        for (int i = 0; i < source.length(); i++) {
-            char before = i > 0 ? source.charAt(i - 1) : ' ';
-            char actual = source.charAt(i);
-            char next = i < source.length() - 1 ? source.charAt(i + 1) : ' ';
-            if (actual == '"' && before != '\\') {
-                insideQuotes = !insideQuotes;
-                if (!insideQuotes) {
-                    addParsed.accept(maker.toString());
-                    maker = new StringBuilder();
-                }
-            } else if (actual == ' ' && !insideQuotes) {
-                addParsed.accept(maker.toString());
-                maker = new StringBuilder();
-            } else if (actual != '\\' || next != '"') {
-                maker.append(actual);
+            context.actualChar = ofCommand.charAt(i);
+            context.nextChar = i < ofCommand.length() - 1 ? ofCommand.charAt(i + 1) : ' ';
+            if (context.insideQuotes) {
+                parseArgumentsInsideQuotes(context);
+            } else {
+                parseArgumentsOutsideQuotes(context);
             }
         }
-        addParsed.accept(maker.toString());
-        return results;
+        context.addArgument();
+        return context.results;
+    }
+
+    private static class ParseArgumentsContext {
+        List<String> results = new ArrayList<>();
+        StringBuilder maker = new StringBuilder();
+        boolean insideQuotes = false;
+        boolean jumpNextChar = false;
+        char actualChar = ' ';
+        char nextChar = ' ';
+
+        public void addArgument() {
+            var argument = maker.toString().trim();
+            if (argument.length() > 0) {
+                results.add(argument);
+            }
+            maker = new StringBuilder();
+        }
+
+        public void addActual() {
+            maker.append(actualChar);
+        }
+
+        public void addSpecial(char special) {
+            maker.append(special);
+        }
+    }
+
+    private static void parseArgumentsInsideQuotes(ParseArgumentsContext onContext) {
+        if (onContext.actualChar == '\\') {
+            parseArgumentsInsideQuotesSpecialChars(onContext);
+            onContext.jumpNextChar = true;
+        } else {
+            if (onContext.actualChar == '"') {
+                onContext.insideQuotes = false;
+            }
+            onContext.addActual();
+        }
+    }
+
+    private static void parseArgumentsInsideQuotesSpecialChars(ParseArgumentsContext onContext) {
+        if (onContext.nextChar == 'n') {
+            onContext.addSpecial('\n');
+        } else if (onContext.nextChar == 'r') {
+            onContext.addSpecial('\r');
+        } else if (onContext.nextChar == 't') {
+            onContext.addSpecial('\t');
+        } else if (onContext.nextChar == 's') {
+            onContext.addSpecial('\s');
+        } else if (onContext.nextChar == 'f') {
+            onContext.addSpecial('\f');
+        } else {
+            onContext.addSpecial(onContext.nextChar);
+        }
+    }
+
+    private static void parseArgumentsOutsideQuotes(ParseArgumentsContext onContext) {
+        if (onContext.actualChar == ' ') {
+            onContext.addArgument();
+        } else {
+            if (onContext.actualChar == '"') {
+                onContext.insideQuotes = true;
+            }
+            onContext.addActual();
+        }
+    }
+
+    public static String removeQuotes(String ofText) {
+        if (ofText.startsWith("\"") && ofText.endsWith("\"")) {
+            return ofText.substring(1, ofText.length() - 1);
+        }
+        return ofText;
     }
 
 }

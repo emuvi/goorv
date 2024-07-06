@@ -36,7 +36,9 @@ public class GlobalValues extends Activity {
     }
 
     public Object get(PassedBy allPassed) {
-        return GLOBAL_VALUES.get(allPassed.getGlyphed(PARAM_GET_NAME));
+        return GLOBAL_VALUES.get(
+            allPassed.getValueStringOrThrow(PARAM_GET_NAME)
+        );
     }
 
     public Set<Map.Entry<String, Object>> getAll() {
@@ -44,11 +46,16 @@ public class GlobalValues extends Activity {
     }
 
     public void put(PassedBy allPassed) {
-        GLOBAL_VALUES.put(allPassed.getGlyphed(PARAM_PUT_NAME), allPassed.getGlyphed(PARAM_PUT_VALUE));
+        GLOBAL_VALUES.put(
+            allPassed.getValueStringOrThrow(PARAM_PUT_NAME), 
+            allPassed.getValueAny(PARAM_PUT_VALUE)
+        );
     }
 
     public void del(PassedBy allPassed) {
-        GLOBAL_VALUES.remove(allPassed.getGlyphed(PARAM_GET_NAME));
+        GLOBAL_VALUES.remove(
+            allPassed.getValueStringOrThrow(PARAM_GET_NAME)
+        );
     }
 
     public void clear() {

@@ -3,19 +3,21 @@ package br.com.pointel.goorv;
 public class Passed {
     
     private final Param param;
-    private final String glyphed;
+    private final ValuedAs valued;
 
-    public Passed(Param param, String glyphed) {
+    public Passed(Param param, ValuedAs valued) {
         this.param = param;
-        this.glyphed = glyphed;
+        this.valued = valued;
     }
 
     public Param getParam() {
         return this.param;
     }
 
-    public String getGlyphed() {
-        return this.glyphed;
+    public ValuedAs getValued() {
+        return this.valued;
     }
+
+    
 
 }

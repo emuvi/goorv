@@ -11,11 +11,14 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.formdev.flatlaf.FlatDarculaLaf;
+import br.com.pointel.goorv.Context;
+import br.com.pointel.goorv.service.wizard.WizAct;
 import br.com.pointel.goorv.service.wizard.WizSwing;
 
 public class Desktop extends JFrame {
@@ -58,7 +61,9 @@ public class Desktop extends JFrame {
     }
 
     private void launchPrompt() {
-        // TODO: Implement this method
+        var prompt = textPrompt.getText();
+        var context = new Context(glyphing -> SwingUtilities.invokeLater(() -> textView.append(glyphing.toString())));
+        new Thread(() -> WizAct.execute(context, prompt)).start();   
     }
 
     public static void start(String[] args) {

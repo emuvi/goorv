@@ -33,7 +33,9 @@ public class LocalValues extends Activity {
     }
 
     public Object get(PassedBy allPassed) {
-        return context.getValue(allPassed.getGlyphed(PARAM_GET_NAME));
+        return context.getValue(
+            allPassed.getValueStringOrThrow(PARAM_GET_NAME)
+        );
     }
 
     public Set<Map.Entry<String, Object>> getAll() {
@@ -41,11 +43,16 @@ public class LocalValues extends Activity {
     }
 
     public void put(PassedBy allPassed) {
-        context.putValue(allPassed.getGlyphed(PARAM_PUT_NAME), allPassed.getGlyphed(PARAM_PUT_VALUE));
+        context.putValue(
+            allPassed.getValueStringOrThrow(PARAM_PUT_NAME), 
+            allPassed.getValueAny(PARAM_PUT_VALUE)
+        );
     }
 
     public void del(PassedBy allPassed) {
-        context.delValue(allPassed.getGlyphed(PARAM_GET_NAME));
+        context.delValue(
+            allPassed.getValueStringOrThrow(PARAM_GET_NAME)
+        );
     }
 
     public void clear() {
