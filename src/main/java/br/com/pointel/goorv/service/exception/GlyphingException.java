@@ -1,4 +1,4 @@
-package br.com.pointel.goorv.exception;
+package br.com.pointel.goorv.service.exception;
 
 public class GlyphingException extends RuntimeException {     
         

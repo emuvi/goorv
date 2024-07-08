@@ -1,7 +1,7 @@
 package br.com.pointel.goorv;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import br.com.pointel.goorv.exception.GlyphingException;
+import br.com.pointel.goorv.service.exception.GlyphingException;
 
 public class Glyphed {
 
