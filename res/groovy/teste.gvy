@@ -1,1 +1,0 @@
-println "Hello, Teste Groovy!"
