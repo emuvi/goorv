@@ -2,6 +2,8 @@ package br.com.pointel.goorv.dektop;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.io.File;
+import java.nio.file.Files;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -18,6 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.formdev.flatlaf.FlatDarculaLaf;
 import br.com.pointel.goorv.Context;
+import br.com.pointel.goorv.dektop.faces.Desk;
 import br.com.pointel.goorv.service.wizard.WizAct;
 import br.com.pointel.goorv.service.wizard.WizSwing;
 
@@ -66,14 +69,12 @@ public class Desktop extends JFrame {
         new Thread(() -> WizAct.execute(context, prompt)).start();   
     }
 
-    public static void start(String[] args) {
-        log.info("Starting Desktop");
-        try {
-            UIManager.setLookAndFeel(new FlatDarculaLaf());
-        } catch (Exception e) {
-            log.error("Failed to initialize FlatDarculaLaf", e);
-        }
-        EventQueue.invokeLater(() -> new Desktop().setVisible(true));
+    public static void start(String[] args) throws Exception {
+        var folder = new File("desk");
+        Files.createDirectories(folder.toPath());
+        log.info("Starting Desk on: {}", folder.getAbsolutePath());
+        UIManager.setLookAndFeel(new FlatDarculaLaf());
+        EventQueue.invokeLater(() -> new Desk(folder).setVisible(true));
     }
 
 }

@@ -12,7 +12,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 public class WizChars {
 
-    public static String makeParameterName(String ofTitle) {
+    public static String makeParameterKeyName(String ofTitle) {
         return ofTitle.replace(" ", "_").toUpperCase();
     }
 

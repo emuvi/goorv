@@ -9,8 +9,12 @@ public class Goorv {
     private static Logger log = LoggerFactory.getLogger(Goorv.class);
     
     public static void main(String[] args) {
-        log.info("Starting Goorv");
-        Desktop.start(args);
+        try {
+            log.info("Starting Goorv");
+            Desktop.start(args);
+        } catch (Exception e) {
+            log.error("Error on Goorv", e);
+        }
     }
 
 }

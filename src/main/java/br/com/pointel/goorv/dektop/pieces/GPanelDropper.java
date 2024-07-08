@@ -11,13 +11,12 @@ import java.awt.dnd.DropTargetListener;
 import java.io.File;
 import java.util.List;
 import java.util.function.Consumer;
-import javax.swing.JPanel;
 
-public class DropBox extends JPanel {
+public class GPanelDropper extends GPanel {
 
     private final Consumer<List<File>> consumer;
 
-    public DropBox(Consumer<List<File>> consumer) {
+    public GPanelDropper(Consumer<List<File>> consumer) {
         this.consumer = consumer;
         setupFileDropListener();
     }

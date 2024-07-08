@@ -125,7 +125,7 @@ public class WizSwing {
     }
 
     public static void initFrame(JFrame frame) {
-        final var parameterName = WizChars.makeParameterName(frame.getTitle());
+        final var parameterName = WizChars.makeParameterKeyName(frame.getTitle());
         frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowOpened(WindowEvent e) {
@@ -148,26 +148,26 @@ public class WizSwing {
         initEscaper(frame);
     }
     
-    private static void setAllCompontentsFont(Component component, Font fonte) {
-        component.setFont(fonte);
+    public static void setAllCompontentsFont(Component component, Font font) {
+        component.setFont(font);
         if (component instanceof Container) {
-            for (Component filho : ((Container) component).getComponents()) {
-                setAllCompontentsFont(filho, fonte);
+            for (Component inside : ((Container) component).getComponents()) {
+                setAllCompontentsFont(inside, font);
             }
         }
     }
 
-    private static void initEscaper(JFrame frame) {
-        String ESCAPER_KEY = "FramEscaperAction";
-        frame.getRootPane().getActionMap().put(ESCAPER_KEY, new AbstractAction() {
+    public static final String FRAME_ESCAPER_ACTION = "FrameEscaperAction";
+
+    public static void initEscaper(JFrame frame) {
+        frame.getRootPane().getActionMap().put(FRAME_ESCAPER_ACTION, new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 close(frame);
             }
         });
-        frame.getRootPane().getInputMap().put(
-                KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
-                ESCAPER_KEY);
+        frame.getRootPane().getInputMap()
+            .put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), FRAME_ESCAPER_ACTION);
     }
 
     public static void close(JFrame frame) {
