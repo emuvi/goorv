@@ -5,11 +5,16 @@ import javax.swing.JList;
 
 public class GList<T> extends JList<T> {
     
-    private DefaultListModel<T> model = new DefaultListModel<T>();
+    private DefaultListModel<T> model = new DefaultListModel<>();
 
     public GList() {
         super();
         setModel(model);
+    }
+
+    public GList<T> put(T item) {
+        model.addElement(item);
+        return this;
     }
 
 }

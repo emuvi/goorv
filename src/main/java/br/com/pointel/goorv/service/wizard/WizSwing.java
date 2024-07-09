@@ -144,7 +144,6 @@ public class WizSwing {
                 WizProps.set(parameterName + "_FRAME_HEIGHT", frame.getBounds().height);
             }
         });
-        setAllCompontentsFont(frame, fontMonospaced());
         initEscaper(frame);
     }
     

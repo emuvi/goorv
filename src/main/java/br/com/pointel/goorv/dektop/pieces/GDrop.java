@@ -12,11 +12,11 @@ import java.io.File;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class GPanelDropper extends GPanel {
+public class GDrop extends GBox {
 
     private final Consumer<List<File>> consumer;
 
-    public GPanelDropper(Consumer<List<File>> consumer) {
+    public GDrop(Consumer<List<File>> consumer) {
         this.consumer = consumer;
         setupFileDropListener();
     }

@@ -74,7 +74,7 @@ public class Desktop extends JFrame {
         Files.createDirectories(folder.toPath());
         log.info("Starting Desk on: {}", folder.getAbsolutePath());
         UIManager.setLookAndFeel(new FlatDarculaLaf());
-        EventQueue.invokeLater(() -> new Desk(folder).setVisible(true));
+        EventQueue.invokeLater(() -> new Desk(folder).putExitOnClose().start());
     }
 
 }
