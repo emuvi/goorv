@@ -1,4 +1,4 @@
-package br.com.pointel.goorv;
+package br.com.pointel.goorv.domain;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import br.com.pointel.goorv.service.exception.GlyphingException;

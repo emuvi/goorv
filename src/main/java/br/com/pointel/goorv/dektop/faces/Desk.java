@@ -2,8 +2,6 @@ package br.com.pointel.goorv.dektop.faces;
 
 import java.awt.event.ActionEvent;
 import java.io.File;
-import br.com.pointel.goorv.dektop.model.Runner;
-import br.com.pointel.goorv.dektop.model.Source;
 import br.com.pointel.goorv.dektop.pieces.GAct;
 import br.com.pointel.goorv.dektop.pieces.GBox;
 import br.com.pointel.goorv.dektop.pieces.GBoxBorder;
@@ -14,6 +12,8 @@ import br.com.pointel.goorv.dektop.pieces.GList;
 import br.com.pointel.goorv.dektop.pieces.GScroll;
 import br.com.pointel.goorv.dektop.pieces.GSplit;
 import br.com.pointel.goorv.dektop.pieces.GText;
+import br.com.pointel.goorv.domain.Runner;
+import br.com.pointel.goorv.domain.Source;
 
 public class Desk extends GFrame {
     

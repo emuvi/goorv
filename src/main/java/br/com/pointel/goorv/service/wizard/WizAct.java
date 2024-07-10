@@ -3,11 +3,11 @@ package br.com.pointel.goorv.service.wizard;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import br.com.pointel.goorv.Activity;
-import br.com.pointel.goorv.Context;
-import br.com.pointel.goorv.Parsing;
-import br.com.pointel.goorv.Typed;
-import br.com.pointel.goorv.ValuedAs;
+import br.com.pointel.goorv.domain.Activity;
+import br.com.pointel.goorv.domain.Context;
+import br.com.pointel.goorv.domain.Parsing;
+import br.com.pointel.goorv.domain.Typed;
+import br.com.pointel.goorv.domain.ValuedAs;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ScanResult;
 

@@ -1,4 +1,4 @@
-package br.com.pointel.goorv.dektop.model;
+package br.com.pointel.goorv.domain;
 
 import java.io.File;
 import java.io.Serializable;

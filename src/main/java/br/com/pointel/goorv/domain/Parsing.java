@@ -1,4 +1,4 @@
-package br.com.pointel.goorv;
+package br.com.pointel.goorv.domain;
 
 import java.util.List;
 import br.com.pointel.goorv.service.wizard.WizChars;

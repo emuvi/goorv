@@ -3,13 +3,13 @@ package br.com.pointel.goorv.activity;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import br.com.pointel.goorv.Activity;
-import br.com.pointel.goorv.Context;
-import br.com.pointel.goorv.Order;
-import br.com.pointel.goorv.Param;
-import br.com.pointel.goorv.PassedBy;
+import br.com.pointel.goorv.domain.Activity;
+import br.com.pointel.goorv.domain.Context;
+import br.com.pointel.goorv.domain.Order;
+import br.com.pointel.goorv.domain.Param;
+import br.com.pointel.goorv.domain.PassedBy;
 
-public class GlobalValues extends Activity {
+public class Global extends Activity {
 
     public static final Order ORDER_SHOW = new Order("show", "Show all values.");
 
@@ -22,7 +22,7 @@ public class GlobalValues extends Activity {
 
     private static final Map<String, Object> GLOBAL_VALUES = new HashMap<>();
 
-    public GlobalValues(Context context) {
+    public Global(Context context) {
         super(context,"Global values functionality.", 
             ORDER_SHOW, ORDER_GET, ORDER_PUT
         );

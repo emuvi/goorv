@@ -1,4 +1,4 @@
-package br.com.pointel.goorv;
+package br.com.pointel.goorv.domain;
 
 import java.util.HashMap;
 import java.util.Map;

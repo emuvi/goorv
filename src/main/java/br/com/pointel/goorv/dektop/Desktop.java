@@ -19,8 +19,8 @@ import javax.swing.border.Border;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.formdev.flatlaf.FlatDarculaLaf;
-import br.com.pointel.goorv.Context;
 import br.com.pointel.goorv.dektop.faces.Desk;
+import br.com.pointel.goorv.domain.Context;
 import br.com.pointel.goorv.service.wizard.WizAct;
 import br.com.pointel.goorv.service.wizard.WizSwing;
 
