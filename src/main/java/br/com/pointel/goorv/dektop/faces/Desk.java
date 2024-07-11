@@ -7,6 +7,7 @@ import br.com.pointel.goorv.dektop.pieces.GBox;
 import br.com.pointel.goorv.dektop.pieces.GBoxBorder;
 import br.com.pointel.goorv.dektop.pieces.GBoxLine;
 import br.com.pointel.goorv.dektop.pieces.GCombo;
+import br.com.pointel.goorv.dektop.pieces.GField;
 import br.com.pointel.goorv.dektop.pieces.GFrame;
 import br.com.pointel.goorv.dektop.pieces.GList;
 import br.com.pointel.goorv.dektop.pieces.GScroll;
@@ -25,9 +26,13 @@ public class Desk extends GFrame {
 
     private final GAct newAct = new GAct("New").putAct(this::actNew);
     private final GAct editAct = new GAct("Edit").putAct(this::actEdit);
-    private final GAct runAct = new GAct("Run").putAct(this::actRun);
-    private final GBox sourceTools = new GBoxLine().putAll(newAct, editAct, runAct);
+    private final GAct startAct = new GAct("Start").putAct(this::actStart);
+    private final GBox sourceTools = new GBoxLine().putAll(newAct, editAct, startAct);
     private final GBox sourceBox = new GBoxBorder().putCenter(sourceScroll).putSouth(sourceTools);
+
+    private final GField runnerField = new GField();
+    private final GAct runAct = new GAct("Run").putAct(this::actRun);
+    private final GBox runnerBox = new GBoxBorder().putCenter(runnerField).putEast(runAct);
 
     private final GText outputText = new GText(25, 50).delEditable().putWrap();
     private final GScroll outputScroll = new GScroll(outputText);
@@ -37,7 +42,7 @@ public class Desk extends GFrame {
     private final GAct stopAct = new GAct("Stop").putAct(this::actStop);
     private final GAct clearAct = new GAct("Clear").putAct(this::actClear);
     private final GBox outputTools = new GBoxLine().putAll(runnerCombo, resumeAct, pauseAct, stopAct, clearAct);
-    private final GBox outputBox = new GBoxBorder().putCenter(outputScroll).putSouth(outputTools);
+    private final GBox outputBox = new GBoxBorder().putNorth(runnerBox).putCenter(outputScroll).putSouth(outputTools);
 
     private final GSplit bodySplit = new GSplit(sourceBox, outputBox, 0.3).putBorder(4);
 
@@ -93,6 +98,8 @@ public class Desk extends GFrame {
             new Editor(source).start();
         }
     }
+
+    private void actStart(ActionEvent event) {}
 
     private void actRun(ActionEvent event) {}
 
