@@ -2,11 +2,10 @@ package br.com.pointel.goorv.domain;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
-public class Source implements Serializable {
+public class Source {
 
     private final File file;
     
@@ -19,6 +18,10 @@ public class Source implements Serializable {
 
     public File getFile() {
         return file;
+    }
+
+    public String getName() {
+        return file.getName();
     }
 
     public Source read() throws IOException {

@@ -15,7 +15,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.net.URI;
+import java.util.function.Supplier;
 import javax.swing.AbstractAction;
+import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -37,13 +39,17 @@ public class WizSwing {
     }
 
     public static void showError(Throwable error) {
-        showError(error, null);
+        showError(null, error, null);
     }
 
-    public static void showError(Throwable error, String detail) {
+    public static void showError(String message, Throwable error) {
+        showError(message, error, null);
+    }
+
+    public static void showError(String message, Throwable error, String detail) {
         error.printStackTrace();
-        String message = "[" + error.getClass().getSimpleName() + "] " + error.getMessage() + (detail != null ? " " + detail : "");
-        run(() -> JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE));
+        String display = (message != null ? message + "\n" : "") + "[" + error.getClass().getSimpleName() + "] " + error.getMessage() + (detail != null ? " " + detail : "");
+        run(() -> JOptionPane.showMessageDialog(null, display, "Error", JOptionPane.ERROR_MESSAGE));
     }
 
     public static boolean showConfirm(String message) {
@@ -144,7 +150,6 @@ public class WizSwing {
                 WizProps.set(parameterName + "_FRAME_HEIGHT", frame.getBounds().height);
             }
         });
-        initEscaper(frame);
     }
     
     public static void setAllCompontentsFont(Component component, Font font) {
@@ -159,13 +164,19 @@ public class WizSwing {
     public static final String FRAME_ESCAPER_ACTION = "FrameEscaperAction";
 
     public static void initEscaper(JFrame frame) {
+        initEscaper(frame, () -> true);
+    }
+
+    public static void initEscaper(JFrame frame, Supplier<Boolean> condition) {
         frame.getRootPane().getActionMap().put(FRAME_ESCAPER_ACTION, new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                close(frame);
+                if (Boolean.TRUE.equals(condition.get())) {
+                    close(frame);
+                }
             }
         });
-        frame.getRootPane().getInputMap()
+        frame.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
             .put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), FRAME_ESCAPER_ACTION);
     }
 

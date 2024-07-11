@@ -26,7 +26,7 @@ public class MakePDFInFolder {
                         addPage(document, inside);
                         hasPages = true;
                     } catch (Exception e) {
-                        WizSwing.showError(e, "Could not add from file: " + inside.getName());
+                        WizSwing.showError("Could not add from file: " + inside.getName(), e);
                     }
                 }
             }

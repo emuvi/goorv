@@ -3,7 +3,7 @@ package br.com.pointel.goorv.dektop.pieces;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 
-public class GAct extends JButton {
+public class GAct extends JButton implements GWays<GAct> {
 
     public GAct() {
         super();
@@ -18,7 +18,7 @@ public class GAct extends JButton {
         return this;
     }
 
-    public GAct putAction(ActionListener action) {
+    public GAct putAct(ActionListener action) {
         addActionListener(action);
         return this;
     }

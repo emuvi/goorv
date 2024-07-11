@@ -4,7 +4,7 @@ import java.awt.event.ActionListener;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 
-public class GCombo<T> extends JComboBox<T> {
+public class GCombo<T> extends JComboBox<T> implements GWays<GCombo<T>> {
 
     private final DefaultComboBoxModel<T> model = new DefaultComboBoxModel<>();
 
@@ -18,10 +18,9 @@ public class GCombo<T> extends JComboBox<T> {
         return this;
     }
 
-    public GCombo<T> putAction(ActionListener action) {
+    public GCombo<T> putAct(ActionListener action) {
         addActionListener(action);
         return this;
     }
-
 
 }

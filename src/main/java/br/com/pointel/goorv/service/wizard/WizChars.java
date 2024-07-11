@@ -13,7 +13,11 @@ import org.apache.commons.lang3.tuple.Pair;
 public class WizChars {
 
     public static String makeParameterKeyName(String ofTitle) {
-        return ofTitle.replace(" ", "_").toUpperCase();
+        return ofTitle
+                .replaceAll("\\s+", "_")
+                .replaceAll("\\_+", "_")
+                .replace("_-_", "_")
+                .toUpperCase();
     }
 
     public static String mountGrid(List<Pair<String, String>> ofPairs) {

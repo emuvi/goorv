@@ -14,6 +14,7 @@ import br.com.pointel.goorv.dektop.pieces.GSplit;
 import br.com.pointel.goorv.dektop.pieces.GText;
 import br.com.pointel.goorv.domain.Runner;
 import br.com.pointel.goorv.domain.Source;
+import br.com.pointel.goorv.service.wizard.WizSwing;
 
 public class Desk extends GFrame {
     
@@ -22,23 +23,23 @@ public class Desk extends GFrame {
     private final GList<Source> sourceList = new GList<>();
     private final GScroll sourceScroll = new GScroll(sourceList);
 
-    private final GAct newAct = new GAct("New").putAction(this::actNew);
-    private final GAct editAct = new GAct("Edit").putAction(this::actEdit);
-    private final GAct runAct = new GAct("Run").putAction(this::actRun);
+    private final GAct newAct = new GAct("New").putAct(this::actNew);
+    private final GAct editAct = new GAct("Edit").putAct(this::actEdit);
+    private final GAct runAct = new GAct("Run").putAct(this::actRun);
     private final GBox sourceTools = new GBoxLine().putAll(newAct, editAct, runAct);
     private final GBox sourceBox = new GBoxBorder().putCenter(sourceScroll).putSouth(sourceTools);
 
-    private final GText outputText = new GText().delEditable().putWrap();
+    private final GText outputText = new GText(25, 50).delEditable().putWrap();
     private final GScroll outputScroll = new GScroll(outputText);
-    private final GCombo<Runner> runnerCombo = new GCombo<Runner>().putAction(this::actSelect);
-    private final GAct resumeAct = new GAct("Resume").putAction(this::actResume);
-    private final GAct pauseAct = new GAct("Pause").putAction(this::actPause);
-    private final GAct stopAct = new GAct("Stop").putAction(this::actStop);
-    private final GAct clearAct = new GAct("Clear").putAction(this::actClear);
+    private final GCombo<Runner> runnerCombo = new GCombo<Runner>().putAct(this::actSelect);
+    private final GAct resumeAct = new GAct("Resume").putAct(this::actResume);
+    private final GAct pauseAct = new GAct("Pause").putAct(this::actPause);
+    private final GAct stopAct = new GAct("Stop").putAct(this::actStop);
+    private final GAct clearAct = new GAct("Clear").putAct(this::actClear);
     private final GBox outputTools = new GBoxLine().putAll(runnerCombo, resumeAct, pauseAct, stopAct, clearAct);
     private final GBox outputBox = new GBoxBorder().putCenter(outputScroll).putSouth(outputTools);
 
-    private final GSplit bodySplit = new GSplit(sourceBox, outputBox, 0.3);
+    private final GSplit bodySplit = new GSplit(sourceBox, outputBox, 0.3).putBorder(4);
 
     private final Runner allRunner = new Runner("All");
 
@@ -46,16 +47,17 @@ public class Desk extends GFrame {
         super("Goorv");
         this.folder = folder;
         setContentPane(bodySplit);
-        initFolder();
+        initSourceList();
         initRunner();
     }
 
-    private void initFolder() {
+    private void initSourceList() {
         for (File file : folder.listFiles()) {
-            if (file.isFile()) {
+            if (file.isFile() && file.getName().endsWith(".grv")) {
                 sourceList.put(new Source(file));
             }
         }
+        sourceList.putAct(this::actEdit);
     }
 
     private void initRunner() {
@@ -63,9 +65,34 @@ public class Desk extends GFrame {
         runnerCombo.setSelectedItem(allRunner);
     }
 
-    private void actNew(ActionEvent event) {}
+    private void actNew(ActionEvent event) {
+        new Namer(name -> {
+            name = name.trim();
+            if (name.isEmpty()) {
+                return;
+            }
+            if (!name.endsWith(".grv")) {
+                name = name + ".grv";
+            }
+            var file = new File(folder, name);
+            try {
+                file.createNewFile();
+                var source = new Source(file);
+                sourceList.put(source);
+                sortSorceList();
+            } catch (Exception e) {
+                WizSwing.showError("Could not create the source file.", e);
+            }
+            
+        }).start();
+    }
 
-    private void actEdit(ActionEvent event) {}
+    private void actEdit(ActionEvent event) {
+        var source = sourceList.getSelectedValue();
+        if (source != null) {
+            new Editor(source).start();
+        }
+    }
 
     private void actRun(ActionEvent event) {}
 
@@ -79,5 +106,8 @@ public class Desk extends GFrame {
 
     private void actClear(ActionEvent event) {}
 
+    private void sortSorceList() {
+        sourceList.sort((a, b) -> a.getName().compareTo(b.getName()));
+    }
 
 }
