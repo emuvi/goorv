@@ -8,25 +8,37 @@ public class Tokener implements Serializable {
 
     private final String text;
 
-    private List<Token> tokens = new ArrayList<>();
-    private StringBuilder maker = new StringBuilder();
-    private boolean insideQuotes = false;
-    private char priorChar = ' ';
-    private char actualChar = ' ';
-    private char nextChar = ' ';
-    private int begin = 0;
-    private int index = 0;
+    private List<Token> tokens;
+    private StringBuilder maker;
+    private boolean insideQuotes;
+    private char priorChar;
+    private char actualChar;
+    private char nextChar;
+    private int begin;
+    private int index;
 
     public Tokener(String text) {
         this.text = text;
-        this.makeTokens();
     }
 
-    public List<Token> getTokens() {
+    public List<Token> get() {
+        init();
+        make();
         return tokens;
     }
 
-    private void makeTokens() {
+    private void init() {
+        tokens = new ArrayList<>();
+        maker = new StringBuilder();
+        insideQuotes = false;
+        priorChar = ' ';
+        actualChar = ' ';
+        nextChar = ' ';
+        begin = 0;
+        index = 0;
+    }
+
+    private void make() {
         for (index = 0; index < text.length(); index++) {
             priorChar = index > 0 ? text.charAt(index - 1) : ' ';
             actualChar = text.charAt(index);

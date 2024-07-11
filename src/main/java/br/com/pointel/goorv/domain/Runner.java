@@ -1,12 +1,12 @@
 package br.com.pointel.goorv.domain;
 
-import java.io.Serializable;
+public class Runner {
 
-public class Runner implements Serializable {
-
+    private final Source source;
     private final String title;
 
-    public Runner(String title) {
+    public Runner(Source source, String title) {
+        this.source = source;
         this.title = title;
     }
 

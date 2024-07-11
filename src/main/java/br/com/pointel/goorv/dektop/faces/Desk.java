@@ -14,14 +14,14 @@ import br.com.pointel.goorv.dektop.pieces.GScroll;
 import br.com.pointel.goorv.dektop.pieces.GSplit;
 import br.com.pointel.goorv.dektop.pieces.GText;
 import br.com.pointel.goorv.domain.Runner;
-import br.com.pointel.goorv.domain.Source;
+import br.com.pointel.goorv.domain.SourceFile;
 import br.com.pointel.goorv.service.wizard.WizSwing;
 
 public class Desk extends GFrame {
     
     private final File folder;
 
-    private final GList<Source> sourceList = new GList<>();
+    private final GList<SourceFile> sourceList = new GList<>();
     private final GScroll sourceScroll = new GScroll(sourceList);
 
     private final GAct newAct = new GAct("New").putAct(this::actNew);
@@ -59,7 +59,7 @@ public class Desk extends GFrame {
     private void initSourceList() {
         for (File file : folder.listFiles()) {
             if (file.isFile() && file.getName().endsWith(".grv")) {
-                sourceList.put(new Source(file));
+                sourceList.put(new SourceFile(file));
             }
         }
         sourceList.putAct(this::actEdit);
@@ -82,7 +82,7 @@ public class Desk extends GFrame {
             var file = new File(folder, name);
             try {
                 file.createNewFile();
-                var source = new Source(file);
+                var source = new SourceFile(file);
                 sourceList.put(source);
                 sortSorceList();
             } catch (Exception e) {
