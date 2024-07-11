@@ -48,8 +48,19 @@ public class WizSwing {
 
     public static void showError(String message, Throwable error, String detail) {
         error.printStackTrace();
-        String display = (message != null ? message + "\n" : "") + "[" + error.getClass().getSimpleName() + "] " + error.getMessage() + (detail != null ? " " + detail : "");
-        run(() -> JOptionPane.showMessageDialog(null, display, "Error", JOptionPane.ERROR_MESSAGE));
+        var displayBuilder = new StringBuilder();
+        if (message != null) {
+            displayBuilder.append(message).append("\n");
+        }
+        var causa = error;
+        while (causa != null) {
+            displayBuilder.append("[").append(causa.getClass().getSimpleName()).append("] ").append(causa.getMessage()).append("\n");
+            causa = causa.getCause();
+        }
+        if (detail != null) {
+            displayBuilder.append(detail);
+        }
+        run(() -> JOptionPane.showMessageDialog(null, displayBuilder.toString(), "Error", JOptionPane.ERROR_MESSAGE));
     }
 
     public static boolean showConfirm(String message) {

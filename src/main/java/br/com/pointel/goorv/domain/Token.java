@@ -22,4 +22,12 @@ public class Token {
         return chars.length();
     }
 
+    public boolean isPipe() {
+        return chars.equals("|");
+    }
+
+    public boolean isBreak() {
+        return chars.contains("\n") || chars.contains("\r");
+    }
+
 }

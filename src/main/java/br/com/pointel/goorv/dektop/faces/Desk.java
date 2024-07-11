@@ -46,14 +46,11 @@ public class Desk extends GFrame {
 
     private final GSplit bodySplit = new GSplit(sourceBox, outputBox, 0.3).putBorder(4);
 
-    private final Runner allRunner = new Runner("All");
-
     public Desk(File folder) {
         super("Goorv");
         this.folder = folder;
         setContentPane(bodySplit);
         initSourceList();
-        initRunner();
     }
 
     private void initSourceList() {
@@ -63,11 +60,6 @@ public class Desk extends GFrame {
             }
         }
         sourceList.putAct(this::actEdit);
-    }
-
-    private void initRunner() {
-        runnerCombo.put(allRunner);
-        runnerCombo.setSelectedItem(allRunner);
     }
 
     private void actNew(ActionEvent event) {

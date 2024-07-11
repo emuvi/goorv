@@ -10,7 +10,7 @@ public abstract class Source {
 
     public Parsed parse() {
         var text = getText();
-        return new Parsed(text, new Tokener(text).get());
+        return new Parsed(text);
     }
 
     public String toString() {

@@ -10,6 +10,7 @@ public class Context {
 
     private volatile boolean pause;
     private volatile boolean stop;
+    private volatile float progress;
     private final Consumer<Glyphing> consumer;
 
     private final Map<String, Object> localValues = new HashMap<>();
@@ -45,6 +46,14 @@ public class Context {
             WizBase.sleep(10);
         }
         return stop;
+    }
+
+    public float getProgress() {
+        return progress;
+    }
+
+    public void setProgress(float progress) {
+        this.progress = progress;
     }
 
     public void send(Glyphing glyphing) {
