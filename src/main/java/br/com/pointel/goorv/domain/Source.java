@@ -44,7 +44,7 @@ public class Source implements Serializable {
 
     public Parsed parse() {
         if (parsed == null) {
-            parsed = new Parsed(this.text);
+            parsed = new Parsed(this.text, new Tokener(this.text).getTokens());
         }
         return parsed;
     }
