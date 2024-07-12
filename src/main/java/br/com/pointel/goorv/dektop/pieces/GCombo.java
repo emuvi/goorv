@@ -14,6 +14,10 @@ public class GCombo<T> extends JComboBox<T> implements GWays<GCombo<T>> {
         setModel(model);
     }
 
+    public GCombo(T... items) {
+        super(items);
+    }
+
     public GCombo<T> put(T item) {
         model.addElement(item);
         return this;

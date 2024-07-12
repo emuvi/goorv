@@ -1,8 +1,8 @@
 package br.com.pointel.goorv.activity;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import br.com.pointel.goorv.domain.Activity;
 import br.com.pointel.goorv.domain.Context;
 import br.com.pointel.goorv.domain.Order;
@@ -20,7 +20,7 @@ public class Global extends Activity {
     public static final Param PARAM_PUT_VALUE = new Param("value", "Description of the value.");
     public static final Order ORDER_PUT = new Order("put", "Put the [value] on the [name].", PARAM_PUT_NAME, PARAM_PUT_VALUE);
 
-    private static final Map<String, Object> GLOBAL_VALUES = new HashMap<>();
+    private static final Map<String, Object> GLOBAL_VALUES = new ConcurrentHashMap<>();
 
     public Global(Context context) {
         super(context,"Global values functionality.", 
@@ -35,9 +35,9 @@ public class Global extends Activity {
         }
     }
 
-    public Object get(PassedBy allPassed) {
+    public Object get(PassedBy byPassed) {
         return GLOBAL_VALUES.get(
-            allPassed.getValueStringOrThrow(PARAM_GET_NAME)
+            byPassed.getValueStringOrThrow(PARAM_GET_NAME)
         );
     }
 
@@ -45,16 +45,16 @@ public class Global extends Activity {
         return GLOBAL_VALUES.entrySet();
     }
 
-    public void put(PassedBy allPassed) {
+    public void put(PassedBy byPassed) {
         GLOBAL_VALUES.put(
-            allPassed.getValueStringOrThrow(PARAM_PUT_NAME), 
-            allPassed.getValueAny(PARAM_PUT_VALUE)
+            byPassed.getValueStringOrThrow(PARAM_PUT_NAME), 
+            byPassed.getValueAny(PARAM_PUT_VALUE)
         );
     }
 
-    public void del(PassedBy allPassed) {
+    public void del(PassedBy byPassed) {
         GLOBAL_VALUES.remove(
-            allPassed.getValueStringOrThrow(PARAM_GET_NAME)
+            byPassed.getValueStringOrThrow(PARAM_GET_NAME)
         );
     }
 
