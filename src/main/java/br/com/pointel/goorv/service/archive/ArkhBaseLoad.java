@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.commons.codec.digest.DigestUtils;
-import br.com.pointel.goorv.service.wizard.WizBase;
+import br.com.pointel.goorv.service.wizard.WizApp;
 
 /**
  *
@@ -77,7 +77,7 @@ public class ArkhBaseLoad {
     public void stop() {
         shouldStop.set(true);
         while (!isDone()) {
-            WizBase.sleep(10);
+            WizApp.sleep(10);
         }
     }
 
@@ -126,7 +126,7 @@ public class ArkhBaseLoad {
                 if (doneLoadFiles.get()) {
                     break;
                 } else {
-                    WizBase.sleep(100);
+                    WizApp.sleep(100);
                     continue;
                 }
             }
@@ -155,7 +155,7 @@ public class ArkhBaseLoad {
     private void makeLinterClean() {
         try {
             while (!isDoneVerifiers()) {
-                WizBase.sleep(100);
+                WizApp.sleep(100);
                 if (shouldStop.get()) {
                     return;
                 }

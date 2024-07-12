@@ -14,7 +14,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import org.apache.commons.io.FilenameUtils;
-import br.com.pointel.goorv.service.wizard.WizBase;
+import br.com.pointel.goorv.service.wizard.WizApp;
 
 public class FolderMirror {
 
@@ -141,7 +141,7 @@ public class FolderMirror {
     private void clean() {
         try {
             while (!isDoneLoad()) {
-                WizBase.sleep(100);
+                WizApp.sleep(100);
             }
             findFilesToClean(destiny);
             findFoldersToClean(destiny);

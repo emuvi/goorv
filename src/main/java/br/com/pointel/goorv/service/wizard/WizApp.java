@@ -1,8 +1,10 @@
 package br.com.pointel.goorv.service.wizard;
 
-public class WizBase {
+public class WizApp {
 
-    private WizBase() {}
+    public static final String NAME = "goorv";
+
+    private WizApp() {}
 
     public static void sleep(long millis) {
         try {
