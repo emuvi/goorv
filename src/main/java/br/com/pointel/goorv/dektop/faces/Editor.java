@@ -15,10 +15,10 @@ public class Editor extends GFrame {
 
     private final SourceFile source;
 
-    private final GAct readAct = new GAct("Read").putAct(this::actRead);
-    private final GAct writeAct = new GAct("Write").putAct(this::actWrite);
-    private final GAct scanAct = new GAct("Scan").putAct(this::actScan);
-    private final GAct runAct = new GAct("Run").putAct(this::actRun);
+    private final GAct readAct = new GAct("Read").putShort('E').putAct(this::actRead);
+    private final GAct writeAct = new GAct("Write").putShort('W').putAct(this::actWrite);
+    private final GAct scanAct = new GAct("Scan").putShort('S').putAct(this::actScan);
+    private final GAct runAct = new GAct("Run").putShort('R').putAct(this::actRun);
     private final GBox sourceTools = new GBoxLine().putAll(readAct, writeAct, scanAct,
                     runAct);
 
