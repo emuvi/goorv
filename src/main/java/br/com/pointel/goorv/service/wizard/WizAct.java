@@ -10,6 +10,8 @@ import io.github.classgraph.ScanResult;
 
 public class WizAct {
 
+    private WizAct() {}
+
     public static final String ACTIVITY_PACKAGE = "br.com.pointel.goorv.activity";
 
     public static List<String> getActivities() {

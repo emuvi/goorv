@@ -7,6 +7,8 @@ import java.util.Properties;
 
 public class WizProps {
 
+    private WizProps() {}
+
     private static final Properties PROPERTIES = new Properties();
 
     static {

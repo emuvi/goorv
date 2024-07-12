@@ -1,10 +1,9 @@
 package br.com.pointel.goorv.domain;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Tokener implements Serializable {
+public class Tokener {
 
     private final String text;
 
