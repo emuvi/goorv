@@ -12,6 +12,10 @@ public class SourceFile extends Source {
         this.file = file;
     }
 
+    public File getFile() {
+        return file;
+    }
+
     @Override
     public String getName() {
         return file.getName();
