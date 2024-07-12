@@ -2,6 +2,7 @@ package br.com.pointel.goorv.dektop.faces;
 
 import java.awt.event.ActionEvent;
 import java.io.File;
+import java.util.regex.Pattern;
 import br.com.pointel.goorv.dektop.pieces.GAct;
 import br.com.pointel.goorv.dektop.pieces.GBox;
 import br.com.pointel.goorv.dektop.pieces.GBoxBorder;
@@ -23,7 +24,7 @@ public class Desk extends GFrame {
 
     private final File folder;
 
-    private final GField searchField = new GField();
+    private final GField searchField = new GField().putAct(this::actSearch);
     private final GList<SourceFile> sourceList = new GList<>();
     private final GScroll sourceScroll = new GScroll(sourceList);
     private final GAct newAct = new GAct("New").putShort('N').putAct(this::actNew);
@@ -67,6 +68,28 @@ public class Desk extends GFrame {
         for (File file : folder.listFiles()) {
             if (file.isFile() && file.getName().endsWith(".grv")) {
                 sourceList.put(new SourceFile(file));
+            }
+        }
+    }
+
+    private void actSearch(ActionEvent event) {
+        var selectedIndex = sourceList.getSelectedIndex();
+        var searchFor = searchField.getText();
+        var pattern = Pattern.compile(searchFor, Pattern.CASE_INSENSITIVE);
+        for (int i = selectedIndex + 1; i < sourceList.getValuesSize(); i++) {
+            var source = sourceList.getValueAt(i);
+            var matcher = pattern.matcher(source.getName());
+            if (matcher.find()) {
+                sourceList.setSelectedIndex(i);
+                return;
+            }
+        }
+        for (int i = 0; i < selectedIndex; i++) {
+            var source = sourceList.getValueAt(i);
+            var matcher = pattern.matcher(source.getName());
+            if (matcher.find()) {
+                sourceList.setSelectedIndex(i);
+                return;
             }
         }
     }

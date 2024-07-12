@@ -66,6 +66,14 @@ public class GList<T> extends JList<T> implements GWays<GList<T>> {
         list.forEach(item -> model.addElement(item));
         return this;
     }
+
+    public T getValueAt(int index) {
+        return model.getElementAt(index);
+    }
+
+    public int getValuesSize() {
+        return model.getSize();
+    }
     
     public GList<T> putHint(String hint) {
         setToolTipText(hint);
