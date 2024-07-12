@@ -32,9 +32,9 @@ public class Local extends Activity {
         }
     }
 
-    public Object get(PassedBy allPassed) {
+    public Object get(PassedBy byPassed) {
         return context.getValue(
-            allPassed.getValueStringOrThrow(PARAM_GET_NAME)
+            byPassed.getValueStringOrThrow(PARAM_GET_NAME)
         );
     }
 
@@ -42,16 +42,16 @@ public class Local extends Activity {
         return context.getValues();
     }
 
-    public void put(PassedBy allPassed) {
+    public void put(PassedBy byPassed) {
         context.putValue(
-            allPassed.getValueStringOrThrow(PARAM_PUT_NAME), 
-            allPassed.getValueAny(PARAM_PUT_VALUE)
+            byPassed.getValueStringOrThrow(PARAM_PUT_NAME), 
+            byPassed.getValueAny(PARAM_PUT_VALUE)
         );
     }
 
-    public void del(PassedBy allPassed) {
+    public void del(PassedBy byPassed) {
         context.delValue(
-            allPassed.getValueStringOrThrow(PARAM_GET_NAME)
+            byPassed.getValueStringOrThrow(PARAM_GET_NAME)
         );
     }
 
