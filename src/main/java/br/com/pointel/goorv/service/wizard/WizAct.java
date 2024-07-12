@@ -25,9 +25,9 @@ public class WizAct {
         }
     }
 
-    public static void execute(Context context, String prompt) {
+    public static void execute(Context context, String command) {
         try {
-            var allPrompt = WizChars.parseArguments(prompt);
+            var allPrompt = WizChars.parseArguments(command);
             var pipedPrompt = new ArrayList<List<ValuedAs>>();
             var currentPrompt = new ArrayList<ValuedAs>();
             currentPrompt = splitPipedPrompts(allPrompt, pipedPrompt, currentPrompt);

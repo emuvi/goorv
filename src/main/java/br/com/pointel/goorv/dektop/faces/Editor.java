@@ -19,14 +19,12 @@ public class Editor extends GFrame {
     private final GAct writeAct = new GAct("Write").putShort('W').putAct(this::actWrite);
     private final GAct scanAct = new GAct("Scan").putShort('S').putAct(this::actScan);
     private final GAct runAct = new GAct("Run").putShort('R').putAct(this::actRun);
-    private final GBox sourceTools = new GBoxLine().putAll(readAct, writeAct, scanAct,
-                    runAct);
+    private final GBox sourceTools = new GBoxLine().putAll(readAct, writeAct, scanAct, runAct);
 
     private final GText sourceText = new GText(30, 80).putWrap();
     private final GScroll sourceScroll = new GScroll(sourceText);
 
-    private final GBox bodyBox = new GBoxBorder().putCenter(sourceScroll).putNorth(
-                    sourceTools).putBorder(4);
+    private final GBox bodyBox = new GBoxBorder().putCenter(sourceScroll).putNorth(sourceTools).putBorder(4);
 
     public Editor(SourceFile source) {
         super(source.getName());
