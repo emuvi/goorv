@@ -12,21 +12,21 @@ public class Order {
         this.params = params != null ? params : new Param[0];
     }
 
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
-    public String getBrief() {
+    public String brief() {
         return this.brief;
     }
 
-    public Param[] getParams() {
+    public Param[] params() {
         return this.params;
     }
 
     public Param getParam(String name) {
         for (Param param : this.params) {
-            if (param.getName().equals(name)) {
+            if (param.name().equals(name)) {
                 return param;
             }
         }

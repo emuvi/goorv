@@ -3,6 +3,7 @@ package br.com.pointel.goorv.domain;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.Stack;
 import java.util.function.Consumer;
 import br.com.pointel.goorv.service.wizard.WizBase;
 
@@ -13,6 +14,7 @@ public class Context {
     private volatile float progress;
     private final Consumer<Glyphing> consumer;
 
+    private final Stack<Object> stackValues = new Stack<>();
     private final Map<String, Object> localValues = new HashMap<>();
 
     public Context(Consumer<Glyphing> consumer) {
@@ -68,12 +70,28 @@ public class Context {
         consumer.accept(new Glyphing(error));
     }
 
-    public void putValue(String name, Object value) {
-        localValues.put(name, value);
+    public boolean hasStack() {
+        return !stackValues.isEmpty();
+    }
+
+    public Object popStack() {
+        return stackValues.pop();
+    }
+
+    public void pushStack(Object value) {
+        stackValues.push(value);
+    }
+
+    public void clearStack() {
+        stackValues.clear();
     }
 
     public Object getValue(String name) {
         return localValues.get(name);
+    }
+
+    public void putValue(String name, Object value) {
+        localValues.put(name, value);
     }
 
     public void delValue(String name) {

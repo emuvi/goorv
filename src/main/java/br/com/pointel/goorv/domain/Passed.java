@@ -3,19 +3,19 @@ package br.com.pointel.goorv.domain;
 public class Passed {
     
     private final Param param;
-    private final ValuedAs valued;
+    private final Token token;
 
-    public Passed(Param param, ValuedAs valued) {
+    public Passed(Param param, Token token) {
         this.param = param;
-        this.valued = valued;
+        this.token = token;
     }
 
-    public Param getParam() {
+    public Param param() {
         return this.param;
     }
 
-    public ValuedAs getValued() {
-        return this.valued;
+    public Token token() {
+        return this.token;
     }
 
     

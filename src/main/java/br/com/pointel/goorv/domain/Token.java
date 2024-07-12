@@ -30,4 +30,8 @@ public class Token {
         return chars.contains("\n") || chars.contains("\r");
     }
 
+    public <T> T getValue(Class<T> clazz) {
+        return null;
+    }
+
 }

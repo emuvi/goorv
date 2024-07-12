@@ -1,24 +1,21 @@
 package br.com.pointel.goorv.activity;
 
+import br.com.pointel.goorv.domain.Acting;
 import br.com.pointel.goorv.domain.Activity;
-import br.com.pointel.goorv.domain.Context;
 import br.com.pointel.goorv.domain.Order;
 import br.com.pointel.goorv.domain.Param;
-import br.com.pointel.goorv.domain.PassedBy;
 
 public class While extends Activity {
 
-    public static final Param PARAM_THE_CASE = new Param("case", "Case that will be checked.");
-    public static final Order ORDER_THE = new Order("the", "Runs the logic CHECK on the [case] and executes if true.", PARAM_THE_CASE);
+    public static final Param PARAM_ACT_CASE = new Param("case", "Case that will be checked.");
+    public static final Order ORDER_ACT = new Order("act", "Runs the logic CHECK on the [case] and executes while is true.", PARAM_ACT_CASE);
 
-    public While(Context context) {
-        super(context, "While the case is true, executes the block of commands.");
+    public While(Acting acting) {
+        super(acting, "While the case is true, executes the block of commands.", ORDER_ACT);
     }
 
-    public Object the(PassedBy byPassed) {
-        return context.getValue(
-            byPassed.getValueStringOrThrow(PARAM_THE_CASE)
-        );
+    public Object act() {
+        return null;
     }
 
 }

@@ -15,7 +15,7 @@ public class Parsing {
 
     public Parsing(Order order) {
         this.order = order;
-        this.params = order.getParams();
+        this.params = order.params();
     }
 
     public PassedBy parse(List<ValuedAs> arguments) {

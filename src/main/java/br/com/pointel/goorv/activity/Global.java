@@ -3,8 +3,8 @@ package br.com.pointel.goorv.activity;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import br.com.pointel.goorv.domain.Acting;
 import br.com.pointel.goorv.domain.Activity;
-import br.com.pointel.goorv.domain.Context;
 import br.com.pointel.goorv.domain.Order;
 import br.com.pointel.goorv.domain.Param;
 import br.com.pointel.goorv.domain.PassedBy;
@@ -22,10 +22,8 @@ public class Global extends Activity {
 
     private static final Map<String, Object> GLOBAL_VALUES = new ConcurrentHashMap<>();
 
-    public Global(Context context) {
-        super(context,"Global values functionality.", 
-            ORDER_SHOW, ORDER_GET, ORDER_PUT
-        );
+    public Global(Acting acting) {
+        super(acting,"Global values functionality.", ORDER_SHOW, ORDER_GET, ORDER_PUT);
     }
 
     public void show() {
@@ -48,7 +46,7 @@ public class Global extends Activity {
     public void put(PassedBy byPassed) {
         GLOBAL_VALUES.put(
             byPassed.getValueStringOrThrow(PARAM_PUT_NAME), 
-            byPassed.getValueAny(PARAM_PUT_VALUE)
+            byPassed.getValue(PARAM_PUT_VALUE, Object.class)
         );
     }
 

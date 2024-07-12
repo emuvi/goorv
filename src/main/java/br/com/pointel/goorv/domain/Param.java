@@ -10,11 +10,11 @@ public class Param {
         this.brief = brief;
     }
 
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
-    public String getBrief() {
+    public String brief() {
         return this.brief;
     }
 

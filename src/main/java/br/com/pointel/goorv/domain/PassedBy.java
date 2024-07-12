@@ -11,8 +11,8 @@ public class PassedBy {
         this.allPassed = new ArrayList<>();
     }
     
-    public void add(Param param, ValuedAs sourcing) {
-        this.allPassed.add(new Passed(param, sourcing));
+    public void add(Param param, Token token) {
+        this.allPassed.add(new Passed(param, token));
     }
 
     public List<Passed> getAllPassed() {
@@ -21,7 +21,7 @@ public class PassedBy {
 
     public Passed getPassed(Param param) {
         for (Passed passed : this.allPassed) {
-            if (passed.getParam().equals(param)) {
+            if (passed.param().equals(param)) {
                 return passed;
             }
         }
@@ -31,7 +31,7 @@ public class PassedBy {
     public Passed getPassedOrThrow(Param param) {
         var passed = this.getPassed(param);
         if (passed == null) {
-            throw new IllegalArgumentException("Passed not found: " + param.getName());
+            throw new IllegalArgumentException("Passed not found: " + param.name());
         }
         return passed;
     }
@@ -41,12 +41,12 @@ public class PassedBy {
         if (passed == null) {
             return null;
         }
-        return passed.getValued().getValue(clazz);
+        return passed.token().getValue(clazz);
     }
 
     public <T> T getValueOrThrow(Param param, Class<T> clazz) {
         var passed = this.getPassedOrThrow(param);
-        return passed.getValued().getValue(clazz);
+        return passed.token().getValue(clazz);
     }
 
     public <T> T getValue(Param param, Class<T> clazz, T defaultValue) {
@@ -217,14 +217,6 @@ public class PassedBy {
 
     public Glyphed getValueGlyphedOrThrow(Param param, Glyphed defaultValue) {
         return getValueOrThrow(param, Glyphed.class, defaultValue);
-    }
-
-    public Object getValueAny(Param param) {
-        return getPassedOrThrow(param).getValued().getValueAny();
-    }
-
-    public Object getValueAnyOrThrow(Param param) {
-        return getPassedOrThrow(param).getValued().getValueAny();
     }
 
 }
