@@ -14,6 +14,10 @@ public class Typed {
         return type;
     }
 
+    public boolean isNotVoid() {
+        return type != void.class && type != Void.class;
+    }
+
     public Object getValue() {
         return value;
     }

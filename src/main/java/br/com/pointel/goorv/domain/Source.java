@@ -8,11 +8,6 @@ public abstract class Source {
 
     public abstract void setText(String text);
 
-    public Parsed parse() {
-        var text = getText();
-        return new Parsed(text);
-    }
-
     public String toString() {
         return getName();
     }

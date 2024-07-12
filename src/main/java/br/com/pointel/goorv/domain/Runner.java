@@ -9,10 +9,12 @@ public class Runner {
     private final String title;
     private final Source source;
 
-    private final List<Glyphing> output = new ArrayList<>();
-    private final Consumer<Glyphing> consumer = output::add;
+    private final List<Output> output = new ArrayList<>();
+    private final Consumer<Output> consumer = output::add;
     private final Context context = new Context(consumer);
     private final Thread thread = new Thread(this::run);
+
+    private volatile boolean done = false;
 
     public Runner(String title, Source source) {
         this.title = title;
@@ -44,12 +46,22 @@ public class Runner {
     }
 
     private void run() {
-        var parsed = source.parse();
-        var commands = parsed.getCommands(context);
+        try {
+            process();
+        } catch (Exception e) {
+            context.sendError(e);
+        } finally {
+            done = true;
+        }
+    }
+
+    private void process() throws Exception {
+        var commands = new Commander(source.getText(), this, context).parse();
         var index = 0f;
-        var total = commands.size() * 1.0f;
+        var total = commands.size();
         context.setProgress(index / total);
         for (Command command : commands) {
+            context.clearStack();
             while (context.isToPause()) {
                 try {
                     Thread.sleep(10);
@@ -63,13 +75,17 @@ public class Runner {
                 break;
             }
             command.run();
-            index++;
-            context.setProgress(index / total);
+            context.setProgress(++index / total);
         }
+        context.setProgress(1f);
     }
 
     public void start() {
         thread.start();
+    }
+
+    public boolean isDone() {
+        return done;
     }
 
     public String toString() {

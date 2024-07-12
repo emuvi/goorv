@@ -21,13 +21,13 @@ public class Tokener implements Serializable {
         this.text = text;
     }
 
-    public List<Token> get() {
-        init();
-        make();
+    public List<Token> parse() {
+        initParse();
+        makeParse();
         return tokens;
     }
 
-    private void init() {
+    private void initParse() {
         tokens = new ArrayList<>();
         maker = new StringBuilder();
         insideQuotes = false;
@@ -38,7 +38,7 @@ public class Tokener implements Serializable {
         index = 0;
     }
 
-    private void make() {
+    private void makeParse() {
         for (index = 0; index < text.length(); index++) {
             priorChar = index > 0 ? text.charAt(index - 1) : ' ';
             actualChar = text.charAt(index);

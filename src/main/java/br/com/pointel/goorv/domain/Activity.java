@@ -36,6 +36,10 @@ public abstract class Activity {
         return this.brief;
     }
 
+    public boolean hasNoOrder() {
+        return this.singleOrder == null && this.multipleOrders == null;
+    }
+
     public boolean isSingleOrder() {
         return this.singleOrder != null;
     }
@@ -70,19 +74,13 @@ public abstract class Activity {
         var result = method.invoke(this);
         return new Typed(method.getReturnType(), result);
     }
-    
-    public Typed call(Order order, PassedBy allPassed) throws Exception {
-        var method = this.getClass().getMethod(order.name(), PassedBy.class);
-        var result = method.invoke(this, allPassed);
-        return new Typed(method.getReturnType(), result);
-    }
 
     public void send(Object value) {
-        acting.context().send(new Glyphing(value));
+        acting.context().send(new Output(value));
     }
 
     public void send(Exception e) {
-        acting.context().send(new Glyphing(e));
+        acting.context().send(new Output(e));
     }
 
 }

@@ -30,7 +30,14 @@ public class Token {
         return chars.contains("\n") || chars.contains("\r");
     }
 
+    public boolean isParamName() {
+        return chars.startsWith("-");
+    }
+
     public <T> T getValue(Class<T> clazz) {
+        if (clazz.isInstance(chars)) {
+            return clazz.cast(chars);
+        }
         return null;
     }
 

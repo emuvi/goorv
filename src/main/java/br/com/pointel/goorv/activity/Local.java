@@ -6,7 +6,6 @@ import br.com.pointel.goorv.domain.Acting;
 import br.com.pointel.goorv.domain.Activity;
 import br.com.pointel.goorv.domain.Order;
 import br.com.pointel.goorv.domain.Param;
-import br.com.pointel.goorv.domain.PassedBy;
 
 public class Local extends Activity {
 
@@ -15,12 +14,12 @@ public class Local extends Activity {
     public static final Param PARAM_GET_NAME = new Param("name", "Name of the value.");
     public static final Order ORDER_GET = new Order("get", "Get the value of the [name].", PARAM_GET_NAME);
 
-    public static final Param PARAM_PUT_NAME = new Param("name", "Name of the value.");
-    public static final Param PARAM_PUT_VALUE = new Param("value", "Description of the value.");
-    public static final Order ORDER_PUT = new Order("put", "Put the [value] on the [name].", PARAM_PUT_NAME, PARAM_PUT_VALUE);
+    public static final Param PARAM_SET_NAME = new Param("name", "Name of the value.");
+    public static final Param PARAM_SET_VALUE = new Param("value", "Description of the value.");
+    public static final Order ORDER_SET = new Order("set", "Put the [value] on the [name].", PARAM_SET_NAME, PARAM_SET_VALUE);
 
     public Local(Acting acting) {
-        super(acting,"Local values functionality.", ORDER_SHOW, ORDER_GET, ORDER_PUT);
+        super(acting,"Local values functionality.", ORDER_SHOW, ORDER_GET, ORDER_SET);
     }
 
     public void show() {
@@ -30,9 +29,9 @@ public class Local extends Activity {
         }
     }
 
-    public Object get(PassedBy byPassed) {
+    public Object get() {
         return acting.context().getValue(
-            byPassed.getValueStringOrThrow(PARAM_GET_NAME)
+            acting.passedBy().getValueStringOrThrow(PARAM_GET_NAME)
         );
     }
 
@@ -40,16 +39,16 @@ public class Local extends Activity {
         return acting.context().getValues();
     }
 
-    public void put(PassedBy byPassed) {
+    public void set() {
         acting.context().putValue(
-            byPassed.getValueStringOrThrow(PARAM_PUT_NAME), 
-            byPassed.getValue(PARAM_PUT_VALUE, Object.class)
+            acting.passedBy().getValueStringOrThrow(PARAM_SET_NAME), 
+            acting.passedBy().getValue(PARAM_SET_VALUE, Object.class)
         );
     }
 
-    public void del(PassedBy byPassed) {
+    public void del() {
         acting.context().delValue(
-            byPassed.getValueStringOrThrow(PARAM_GET_NAME)
+            acting.passedBy().getValueStringOrThrow(PARAM_GET_NAME)
         );
     }
 
