@@ -8,8 +8,8 @@ import br.com.pointel.goorv.domain.PassedBy;
 
 public class Not extends Activity {
 
-    public static final Param PARAM_THE_NAME = new Param("val", "Value to be switched.");
-    public static final Order ORDER_THE = new Order("the", "Runs the logic NOT on the [val].", PARAM_THE_NAME);
+    public static final Param PARAM_THE_CASE = new Param("case", "Case that will be switched.");
+    public static final Order ORDER_THE = new Order("the", "Runs the logic NOT on the [case].", PARAM_THE_CASE);
 
     public Not(Context context) {
         super(context, "Returns the logical NOT of the passed by.");
@@ -17,7 +17,7 @@ public class Not extends Activity {
 
     public Object the(PassedBy byPassed) {
         return context.getValue(
-            byPassed.getValueStringOrThrow(PARAM_THE_NAME)
+            byPassed.getValueStringOrThrow(PARAM_THE_CASE)
         );
     }
 
