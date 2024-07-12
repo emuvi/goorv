@@ -23,35 +23,29 @@ public class Desk extends GFrame {
 
     private final File folder;
 
+    private final GField searchField = new GField();
     private final GList<SourceFile> sourceList = new GList<>();
     private final GScroll sourceScroll = new GScroll(sourceList);
-
     private final GAct newAct = new GAct("New").putShort('N').putAct(this::actNew);
     private final GAct editAct = new GAct("Edit").putShort('E').putAct(this::actEdit);
     private final GAct startAct = new GAct("Start").putShort('S').putAct(this::actStart);
     private final GBox sourceTools = new GBoxLine().putAll(newAct, editAct, startAct);
-    private final GBox sourceBox = new GBoxBorder().putCenter(sourceScroll).putSouth(
-                    sourceTools);
+    private final GBox sourceBox = new GBoxBorder().putNorth(searchField).putCenter(sourceScroll).putSouth(sourceTools);
 
     private final GField runnerField = new GField();
     private final GAct runAct = new GAct("Run").putShort('R').putAct(this::actRun);
-    private final GBox runnerBox = new GBoxBorder().putCenter(runnerField).putEast(
-                    runAct);
+    private final GBox runnerBox = new GBoxBorder().putCenter(runnerField).putEast(runAct);
 
     private final GText outputText = new GText(25, 50).delEditable().putWrap();
     private final GScroll outputScroll = new GScroll(outputText);
-    private final GCombo<Runner> runnerCombo = new GCombo<Runner>().putAct(
-                    this::actSelect);
+    private final GCombo<Runner> runnerCombo = new GCombo<Runner>().putAct(this::actSelect);
     private final GAct pauseAct = new GAct("Pause").putShort('P').putAct(this::actPause);
     private final GAct stopAct = new GAct("Stop").putShort('T').putAct(this::actStop);
     private final GAct viewAct = new GAct("View").putShort('V').putAct(this::actView);
-    private final GBox runnerTools = new GBoxLine().putAll(runnerCombo, pauseAct, stopAct,
-                    viewAct);
+    private final GBox runnerTools = new GBoxLine().putAll(runnerCombo, pauseAct, stopAct,viewAct);
     private final GPace runnerPace = new GPace(0, 100).putBorder(2);
-    private final GBox outputTools = new GBoxBorder().putWest(runnerTools).putCenter(
-                    runnerPace);
-    private final GBox outputBox = new GBoxBorder().putNorth(runnerBox).putCenter(
-                    outputScroll).putSouth(outputTools);
+    private final GBox outputTools = new GBoxBorder().putWest(runnerTools).putCenter(runnerPace);
+    private final GBox outputBox = new GBoxBorder().putNorth(runnerBox).putCenter(outputScroll).putSouth(outputTools);
 
     private final GSplit bodySplit = new GSplit(sourceBox, outputBox, 0.3).putBorder(4);
 
