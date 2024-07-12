@@ -24,4 +24,9 @@ public class SourceText extends Source {
         this.text = text;
     }
 
+    public SourceText putText(String text) {
+        this.text = text;
+        return this;
+    }
+
 }

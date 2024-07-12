@@ -16,6 +16,7 @@ import br.com.pointel.goorv.dektop.pieces.GSplit;
 import br.com.pointel.goorv.dektop.pieces.GText;
 import br.com.pointel.goorv.domain.Runner;
 import br.com.pointel.goorv.domain.SourceFile;
+import br.com.pointel.goorv.domain.SourceText;
 import br.com.pointel.goorv.service.wizard.WizSwing;
 
 public class Desk extends GFrame {
@@ -107,9 +108,33 @@ public class Desk extends GFrame {
         }
     }
 
-    private void actStart(ActionEvent event) {}
+    private int runnerId = 0;
+    private int getRunnerId() {
+        runnerId++;
+        return runnerId;
+    }
 
-    private void actRun(ActionEvent event) {}
+    private void actStart(ActionEvent event) {
+        var source = sourceList.getSelectedValue();
+        if (source != null) {
+            startRunner(new Runner("#" + getRunnerId(), source));
+        }
+    }
+
+    private void actRun(ActionEvent event) {
+        var command = runnerField.getText();
+        if (!command.isEmpty()) {   
+            var name = "#" + getRunnerId();
+            var source = new SourceText(name).putText(command);
+            startRunner(new Runner(name, source));
+        }
+    }
+
+    private void startRunner(Runner runner) {
+        runnerCombo.put(runner);
+        runnerCombo.select(runner);
+        runner.start();
+    }
 
     private void actSelect(ActionEvent event) {}
 

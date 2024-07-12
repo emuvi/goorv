@@ -12,6 +12,11 @@ public class Command {
         this.tokens = tokens;
     }
 
-    public void run() {}
+    public void run() {
+        System.out.println("Running command");
+        for (var token : tokens) {
+            System.out.println("Running token: '" + token.getChars() + "'");
+        }
+    }
 
 }

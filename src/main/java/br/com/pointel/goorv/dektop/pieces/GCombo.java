@@ -19,6 +19,45 @@ public class GCombo<T> extends JComboBox<T> implements GWays<GCombo<T>> {
         return this;
     }
 
+    public GCombo<T> putAll(T... items) {
+        for (T item : items) {
+            put(item);
+        }
+        return this;
+    }
+
+    public GCombo<T> clear() {
+        model.removeAllElements();
+        return this;
+    }
+
+    public GCombo<T> del(int index) {
+        model.removeElementAt(index);
+        return this;
+    }
+
+    public GCombo<T> del(T item) {
+        model.removeElement(item);
+        return this;
+    }
+
+    public GCombo<T> delAll(T... items) {
+        for (T item : items) {
+            del(item);
+        }
+        return this;
+    }
+
+    public GCombo<T> select(int index) {
+        setSelectedIndex(index);
+        return this;
+    }
+
+    public GCombo<T> select(T item) {
+        setSelectedItem(item);
+        return this;
+    }
+
     public GCombo<T> putHint(String hint) {
         setToolTipText(hint);
         return this;
