@@ -78,6 +78,11 @@ public class GSplit extends JSplitPane implements GWays<GSplit> {
         setResizeWeight(weight);
         return this;
     }
+    
+    public GSplit putHint(String hint) {
+        setToolTipText(hint);
+        return this;
+    }
 
     public GSplit putBorder(int gap) {
         setBorder(new EmptyBorder(gap, gap, gap, gap));

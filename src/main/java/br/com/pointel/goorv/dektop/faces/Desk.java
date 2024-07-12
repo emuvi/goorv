@@ -10,6 +10,7 @@ import br.com.pointel.goorv.dektop.pieces.GCombo;
 import br.com.pointel.goorv.dektop.pieces.GField;
 import br.com.pointel.goorv.dektop.pieces.GFrame;
 import br.com.pointel.goorv.dektop.pieces.GList;
+import br.com.pointel.goorv.dektop.pieces.GPace;
 import br.com.pointel.goorv.dektop.pieces.GScroll;
 import br.com.pointel.goorv.dektop.pieces.GSplit;
 import br.com.pointel.goorv.dektop.pieces.GText;
@@ -37,11 +38,12 @@ public class Desk extends GFrame {
     private final GText outputText = new GText(25, 50).delEditable().putWrap();
     private final GScroll outputScroll = new GScroll(outputText);
     private final GCombo<Runner> runnerCombo = new GCombo<Runner>().putAct(this::actSelect);
-    private final GAct resumeAct = new GAct("Resume").putAct(this::actResume);
     private final GAct pauseAct = new GAct("Pause").putAct(this::actPause);
     private final GAct stopAct = new GAct("Stop").putAct(this::actStop);
-    private final GAct clearAct = new GAct("Clear").putAct(this::actClear);
-    private final GBox outputTools = new GBoxLine().putAll(runnerCombo, resumeAct, pauseAct, stopAct, clearAct);
+    private final GAct viewAct = new GAct("View").putAct(this::actView);
+    private final GBox runnerTools = new GBoxLine().putAll(runnerCombo, pauseAct, stopAct, viewAct);
+    private final GPace runnerPace = new GPace(0, 100).putBorder(2);
+    private final GBox outputTools = new GBoxBorder().putWest(runnerTools).putCenter(runnerPace);
     private final GBox outputBox = new GBoxBorder().putNorth(runnerBox).putCenter(outputScroll).putSouth(outputTools);
 
     private final GSplit bodySplit = new GSplit(sourceBox, outputBox, 0.3).putBorder(4);
@@ -103,7 +105,7 @@ public class Desk extends GFrame {
 
     private void actStop(ActionEvent event) {}
 
-    private void actClear(ActionEvent event) {}
+    private void actView(ActionEvent event) {}
 
     private void sortSorceList() {
         sourceList.sort((a, b) -> a.getName().compareTo(b.getName()));

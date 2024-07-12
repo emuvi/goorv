@@ -11,6 +11,7 @@ import java.util.Comparator;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
+import javax.swing.border.EmptyBorder;
 
 public class GList<T> extends JList<T> implements GWays<GList<T>> {
     
@@ -63,6 +64,16 @@ public class GList<T> extends JList<T> implements GWays<GList<T>> {
         list.sort(comparator);
         model.clear();
         list.forEach(item -> model.addElement(item));
+        return this;
+    }
+    
+    public GList<T> putHint(String hint) {
+        setToolTipText(hint);
+        return this;
+    }
+
+    public GList<T> putBorder(int gap) {
+        setBorder(new EmptyBorder(gap, gap, gap, gap));
         return this;
     }
 

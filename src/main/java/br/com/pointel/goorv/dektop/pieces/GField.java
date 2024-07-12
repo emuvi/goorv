@@ -2,6 +2,7 @@ package br.com.pointel.goorv.dektop.pieces;
 
 import java.awt.event.ActionListener;
 import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 
 public class GField extends JTextField implements GWays<GField> {
 
@@ -38,6 +39,16 @@ public class GField extends JTextField implements GWays<GField> {
 
     public GField putColumns(int columns) {
         setColumns(columns);
+        return this;
+    }
+
+    public GField putHint(String hint) {
+        setToolTipText(hint);
+        return this;
+    }
+
+    public GField putBorder(int gap) {
+        setBorder(new EmptyBorder(gap, gap, gap, gap));
         return this;
     }
 

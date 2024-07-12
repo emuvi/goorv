@@ -1,46 +1,53 @@
 package br.com.pointel.goorv.dektop.pieces;
 
-import java.awt.Component;
-import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.border.EmptyBorder;
 
+public class GPace extends JProgressBar implements GWays<GPace> {
 
-public class GBox extends JPanel implements GWays<GBox> {
+    private static final long serialVersionUID = 1L;
 
-    public GBox() {
+    public GPace() {
         super();
     }
 
-    public GBox(LayoutManager layout) {
-        super(layout);
+    public GPace(int min, int max) {
+        super(min, max);
     }
 
-    public GBox putAll(Component... components) {
-        for (Component component : components) {
-            add(component);
-        }
+    public GPace putMin(int min) {
+        setMinimum(min);
         return this;
     }
 
-    public GBox putHint(String hint) {
+    public GPace putMax(int max) {
+        setMaximum(max);
+        return this;
+    }
+
+    public GPace putPace(int value) {
+        setValue(value);
+        return this;
+    }
+    
+    public GPace putHint(String hint) {
         setToolTipText(hint);
         return this;
     }
 
-    public GBox putBorder(int gap) {
+    public GPace putBorder(int gap) {
         setBorder(new EmptyBorder(gap, gap, gap, gap));
         return this;
     }
 
     @Override
-    public GBox putAct(ActionListener action) {
+    public GPace putAct(ActionListener action) {
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {

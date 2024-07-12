@@ -8,11 +8,22 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JScrollPane;
+import javax.swing.border.EmptyBorder;
 
 public class GScroll extends JScrollPane implements GWays<GScroll> {
 
     public GScroll(Component component) {
         super(component);
+    }
+    
+    public GScroll putHint(String hint) {
+        setToolTipText(hint);
+        return this;
+    }
+
+    public GScroll putBorder(int gap) {
+        setBorder(new EmptyBorder(gap, gap, gap, gap));
+        return this;
     }
 
     public GScroll putAct(ActionListener action) {

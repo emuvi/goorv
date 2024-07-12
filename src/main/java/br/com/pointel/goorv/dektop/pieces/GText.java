@@ -2,6 +2,7 @@ package br.com.pointel.goorv.dektop.pieces;
 
 import java.awt.event.ActionListener;
 import javax.swing.JTextArea;
+import javax.swing.border.EmptyBorder;
 
 public class GText extends JTextArea implements GWays<GText> {
 
@@ -55,6 +56,16 @@ public class GText extends JTextArea implements GWays<GText> {
 
     public GText putRows(int rows) {
         setRows(rows);
+        return this;
+    }
+    
+    public GText putHint(String hint) {
+        setToolTipText(hint);
+        return this;
+    }
+
+    public GText putBorder(int gap) {
+        setBorder(new EmptyBorder(gap, gap, gap, gap));
         return this;
     }
 
