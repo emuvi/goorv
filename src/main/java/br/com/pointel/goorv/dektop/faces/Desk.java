@@ -40,10 +40,10 @@ public class Desk extends GFrame {
     private final GText outputText = new GText(25, 50).delEditable().putWrap();
     private final GScroll outputScroll = new GScroll(outputText);
     private final GCombo<Runner> runnerCombo = new GCombo<Runner>().putAct(this::actSelect);
-    private final GAct pauseAct = new GAct("Pause").putShort('P').putAct(this::actPause);
+    private final GAct toggleAct = new GAct("Pause").putShort('U').putAct(this::actToggle);
     private final GAct stopAct = new GAct("Stop").putShort('T').putAct(this::actStop);
     private final GAct viewAct = new GAct("View").putShort('V').putAct(this::actView);
-    private final GBox runnerTools = new GBoxLine().putAll(runnerCombo, pauseAct, stopAct,viewAct);
+    private final GBox runnerTools = new GBoxLine().putAll(runnerCombo, toggleAct, stopAct,viewAct);
     private final GPace runnerPace = new GPace(0, 100).putBorder(2);
     private final GBox outputTools = new GBoxBorder().putWest(runnerTools).putCenter(runnerPace);
     private final GBox outputBox = new GBoxBorder().putNorth(runnerBox).putCenter(outputScroll).putSouth(outputTools);
@@ -153,15 +153,21 @@ public class Desk extends GFrame {
         runner.start();
     }
 
-    private void actSelect(ActionEvent event) {}
+    private void actSelect(ActionEvent event) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 
-    private void actResume(ActionEvent event) {}
+    private void actToggle(ActionEvent event) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 
-    private void actPause(ActionEvent event) {}
+    private void actStop(ActionEvent event) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 
-    private void actStop(ActionEvent event) {}
-
-    private void actView(ActionEvent event) {}
+    private void actView(ActionEvent event) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 
     private void sortSorceList() {
         sourceList.sort((a, b) -> a.getName().compareTo(b.getName()));
